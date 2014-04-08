@@ -1,0 +1,138 @@
+html{ height:100%; margin:0; padding:0; }
+
+body {
+  height:60%;
+  font-family:'Trebuchet MS',  'Arial', 'Helvetica', 'sans-serif';
+  font-size:10pt;
+  background-color: LightGray;
+  line-height:1.6em;
+}
+
+form {
+    display: inline-block;
+    
+    }
+
+h1{ font-size:1.6em; }
+h2{ font-size:1.4em; }
+
+
+#container{
+   min-height:100%;
+   position:relative;
+   left:10%;
+}
+
+#header{
+  padding:8px;
+  width:80%;
+  background-color:#4b6c9e;
+  color:White;
+}
+
+#main{
+  width:80%;
+  padding: 8px;
+  padding-bottom:4em;
+  background-color:White;
+}
+
+#footer{
+  width:80%;
+  height:2em;
+  padding:8px;
+  margin-top:-2em;
+  background-color:LightGray;
+}
+
+.head { background-color: #E8E8E8; font-weight: bold; color: #FFF; }
+.grid th, .grid td { border: 1px solid #C0C0C0; padding: 5px; }
+.alt { background-color: #E8E8E8; color: #000; }
+.selected {background-color:Yellow;}
+span.caption {width:100px;}
+span.dataDisplay {font-weight:bold;}
+
+.field-validation-error {
+font-weight:bold;
+color:red;
+background-color:yellow;              
+}
+.validation-summary-errors{
+border:2px dashed red;
+color:red;
+background-color:yellow;
+font-weight:bold;
+margin:12px;
+    }
+
+/* Basic Grey */
+.basic-grey {
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    background: #EEE;
+    padding: 20px 30px 20px 30px;
+    font: 12px Georgia, "Times New Roman", Times, serif;
+    color: #888;
+    text-shadow: 1px 1px 1px #FFF;
+    border:1px solid #DADADA;
+}
+.basic-grey h1 {
+    font: 25px Georgia, "Times New Roman", Times, serif;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom: 1px solid #DADADA;
+    margin: -10px -30px 30px -30px;
+    color: #888;
+}
+.basic-grey h1>span {
+    display: block;
+    font-size: 11px;
+}
+.basic-grey label {
+    display: block;
+    margin: 0px 0px 5px;
+}
+.basic-grey label>span {
+    float: left;
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+.basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea,.basic-grey select{
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 24px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 70%;
+    font: normal 12px/12px Georgia, "Times New Roman", Times, serif;
+}
+.basic-grey select {
+    background: #FFF url('down-arrow.png') no-repeat right;
+    background: #FFF url('down-arrow.png') no-repeat right);
+    appearance:none;
+    -webkit-appearance:none; 
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 72%;
+    height: 30px;
+}
+.basic-grey textarea{
+    height:100px;
+}
+.basic-grey .button {
+    background: #E48F8F;
+    border: none;
+    padding: 10px 25px 10px 25px;
+    color: #FFF;
+}
+.basic-grey .button:hover {
+    background: #CF7A7A
+}

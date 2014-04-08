@@ -1,0 +1,215 @@
+﻿@{
+
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Process Request";       
+
+    var firstName = "";
+    var lastName = "";
+    var description = "";
+    DateTime startDate= DateTime.Now ;  
+    DateTime endDate = DateTime.Now  ;
+    var shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+    var shortEndDate = startDate.ToString("dd-MMMM-yyyy");
+    var vartotalDays= "";
+    int inttotalDays=0;
+    int totalLeaveDays= 0;
+    var requestStatus = "";
+    int updatedLeaveDays = 0;
+    var ID = "";
+    var email="";
+    
+
+
+   ///// <p><label for="requestStatus">Request Status:</label>
+   //////      <input type="text" name="requestStatus" value="@requestStatus" /></p>
+
+
+
+   ////// remember to updated registor form to include email address in leave request tables------------------------------
+
+
+
+
+    
+
+
+    if(!IsPost){
+        if(!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt()) {
+            ID = Request.QueryString["ID"];
+            var db = Database.Open("Annual Leave System");
+            var dbCommand = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, ID);
+            //var grid = new WebGrid(source: dbCommand,ID, rowsPerPage: 10);
+
+            //////////////////////////////////////////////////
+
+
+
+            ///////////////////////////////////////////////////
+
+            
+
+            
+
+            if(row != null) {
+               
+                firstName = row.firstName;
+                lastName = row.lastName;
+                description = row.description;
+                startDate = row.startDate;
+                endDate = row.endDate;
+                shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+                shortEndDate = endDate.ToString("dd-MMMM-yyyy");
+                inttotalDays = row.totalDays;
+                requestStatus = row.requestStatus;
+                email = row.email;
+                
+               
+            }
+            else{
+                Validation.AddFormError("No Request was selected.");
+            }
+        }
+        else{
+            Validation.AddFormError("No Request was selected.");
+        }
+    }
+
+     
+
+    if(IsPost){
+        
+        //Validation.RequireField("firstName", "Please enter a first name");
+        //Validation.RequireField("lastName", "Please enter a first name");
+        //Validation.RequireField("email", "You must enter an email address");
+        //Validation.RequireField("UserID", "No User ID was submitted!");
+
+        
+        //firstName = Request.Form["firstName"];
+        //lastName = Request.Form["lastName"];
+        //description = Request.Form["description"];
+        //varStartDate = Request.Form["sdate"];
+
+        
+        //startDate = varStartDate.AsDateTime();
+        //endDate = Request.Form["edate"];
+        //totalDays = Request.Form["totalDays"];
+        requestStatus = Request.Form["requestStatus"];
+        //vartotalDays = Request.Form["totaldays"];
+        //inttotalDays = vartotalDays.AsInt();
+        
+        ID = Request.Form["ID"];
+
+       
+
+        if(Validation.IsValid()){
+            var db = Database.Open("Annual Leave System");
+            var deleteCommand = "DELETE FROM LeaveRequests WHERE ID =@0";
+            db.Execute(deleteCommand, ID);
+            //Response.Redirect("~/tasks");
+
+
+            //////////////////////send notifcation email////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////
+
+
+            //Update employees annual leave days if request is approved
+           
+            ///////////////////
+
+            //var db = Database.Open("Annual Leave System");
+            //var dbCommand2 = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            //var row2 = db.QuerySingle(dbCommand2, ID);
+            //email = row2.email;
+
+            /////////////////
+
+            /////////////
+
+            //var dbCommand3 = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            //var row3 = db.QuerySingle(dbCommand3, ID);
+            //inttotalDays = row3.totaldays;
+
+
+            //var dbCommand4 = "SELECT * FROM UserProfile WHERE email = @0";
+            //var row4 = db.QuerySingle(dbCommand4, email);
+            //totalLeaveDays = row4.annualLeavedays;
+
+
+
+            //////////////
+           
+           
+
+            Response.Redirect("~/tasks");
+
+
+            ////////////////close database////////////////////////////
+                
+
+            
+            
+           
+        }
+    }
+
+
+}
+
+
+
+  <h2>Process Leave Request</h2>
+    @Html.ValidationSummary()
+
+<h3>Employee Leave Request Details</h3> 
+<fieldset>
+<table border="1" width="100%"> 
+
+<tr bgcolor="grey">
+<th>First Name</th> 
+<th>Last Name</th> 
+<th>Description</th> 
+<th>Start Date</th> 
+<th>End Date</th> 
+<th>Total days leave requested</th> 
+</tr>
+<tr>
+<th>@firstName</th> 
+<th>@lastName</th>
+<th>@description</th> 
+<th>@shortStartDate</th> 
+<th>@shortEndDate</th> 
+<th>@inttotalDays</th> 
+</tr>
+
+</table>
+
+<br/>
+  </center><center><form method="post" >
+    
+
+      <input type="hidden" name="ID" value="@ID" />
+
+      <p><input type="submit" name="buttonSubmit" value="Delete" /></p>
+    </fieldset>
+  </form></center>
+
+
+    <br/>
+    <a href="@Href("~/tasks")"><--back</a>
+
+    <br/>
+    <a href="@Href("~/Logout")">Log out</a>
+    <br/>
+    <a href="@Href("~/Home")">Home</a>
+    <br/>
+    updated leave days : @updatedLeaveDays
+    <br/>
+    @inttotalDays
+<br>
+@endDate ------------------add box up to confirm delete
+
+
+    
+
+

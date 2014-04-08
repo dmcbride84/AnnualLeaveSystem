@@ -1,0 +1,254 @@
+﻿@{
+   
+ Page.Title = "Home Page";    
+Layout = "~/_Layout.cshtml";
+
+var theUserName = WebSecurity.CurrentUserName;
+
+    DateTime startDate= DateTime.Now ;  
+    DateTime endDate = DateTime.Now  ;
+    var shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+    var shortEndDate = startDate.ToString("dd-MMMM-yyyy");
+    var description= "";
+    var theLeaveType="";
+    var requestStatus ="";
+    int inttotalDays=0;
+    int updatedLeaveDays = 0;
+    var ID = "";
+    
+
+    int annualLeaveDays = 0;
+
+
+ if(WebSecurity.IsAuthenticated){
+
+
+     <!-- Open a database connection-->
+                                       
+  var db = Database.Open("Annual Leave System");
+
+  var dbCommand = "SELECT annualLeaveDays FROM UserProfile WHERE email = @0";
+  var row = db.QuerySingle(dbCommand, theUserName);
+  annualLeaveDays = row.annualLeaveDays;
+
+
+
+
+
+  
+
+ }
+
+  
+
+  <!-- Close  database connection------------------------------------------------------------------------>
+
+  }
+
+
+
+
+
+
+
+        <h1>Home Page</h1>
+        
+
+         
+        <p>
+           @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Employee")){
+      
+               <p>You are logged in as: @theUserName</p> <p>You have @annualLeaveDays annual leave days available</p>
+        
+               <table cellpadding="10">
+                   <tr>
+                       <td><p><a href="@Href("~/calendar")">View Calendar</a> </p> </td>
+                       <td><p><a href="@Href("~/requestform")">Request Leave</a></p> </td>
+                       <td><p><a href="@Href("~/Logout")">Log out</a></p> </td> 
+                   </tr>
+               </table>
+
+                var db = Database.Open("Annual Leave System");
+
+                var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                var rows1 = db.Query(dbCommand2, theUserName);
+
+                 
+                
+
+              // if(row2 != null) {
+
+             
+               // description = row2.description;
+                //theLeaveType = row2.leaveType;
+                //startDate = row2.startDate;
+               // endDate = row2.endDate;
+                //shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+                //shortEndDate = endDate.ToString("dd-MMMM-yyyy");
+                //inttotalDays = row2.totalDays;
+                //requestStatus = row2.requestStatus;
+                
+                
+               
+            //}
+
+                
+               
+                <fieldset>
+                <legend>Your Leave Requests</legend>
+                <table border="1" width="100%"> 
+
+                
+                
+                <tr bgcolor="grey">
+                <th>Description</th> 
+                <th>Leave Type</th> 
+                <th>Start Date</th> 
+                <th>End Date</th> 
+                <th>Total days leave requested</th> 
+                <th>Request Status</th> 
+                </tr>
+
+               @foreach(var rows2 in rows1){
+                <tr>
+                
+                <th>@rows2.description</th>
+                <th>@rows2.leaveType</th> 
+                <th>@rows2.startDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.endDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.totalDays</th> 
+                <th>@rows2.requestStatus</th> 
+                </tr>
+                  }  
+                </table>
+
+                </fieldset>
+
+               
+           
+         
+
+                
+               
+
+            
+           
+
+    }
+    else if(Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
+    
+    
+     {
+            <p>You are logged in as: @theUserName</p>
+
+
+                
+             <table cellpadding="10">
+                   <tr>
+                       <td><p><a href="@Href("~/Admin/Register")">Add a user</a></p> </td>
+                       <td><p><a href="@Href("~/staffList")">Staff List</a></p> </td>
+                       <td><p><p><a href="@Href("~/Admin/ManageRoles")">Manage Roles</a></p> </td>
+                       <td><p><a href="@Href("~/calendar")">View Calendar</a> </td>
+                       <td><p><a href="@Href("~/Admin/allTasks")">All Tasks</a></p> </td>
+                       <td><p><a href="@Href("~/VisualGraph")">View Graph</a> </td>
+                       <td><p><a href="@Href("~/Logout")">Logout</a></p> </td>
+                       
+                      
+                       
+                   </tr>
+
+
+               </table>
+            
+    }
+
+        else if(Roles.IsUserInRole(WebSecurity.CurrentUserName, "Manager"))
+    
+    
+     {
+
+         <p>You are logged in as: @theUserName</p> <p>You have @annualLeaveDays annual leave days available</p>
+    
+           
+             <table cellpadding="10">
+                   <tr>
+                       <td><p><a href="@Href("~/staffList")">Staff List</a></p> </td>
+                       <td><p><a href="@Href("~/calendar")">View Calendar</a> </td>
+                       <td><p><p><a href="@Href("~/requestform")">Request Leave</a></p> </td>
+                       <td><p><a href="@Href("~/tasks")">Current Tasks</a></p> </td>
+                       <td><p><a href="@Href("~/VisualGraph")">View Graph</a> </td>
+                       <td><p><a href="@Href("~/Logout")">Logout</a></p> </td>
+                      
+                   </tr>
+
+               </table>
+
+                    var db = Database.Open("Annual Leave System");
+
+                var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                var rows1 = db.Query(dbCommand2, theUserName);
+
+                 
+                
+
+              // if(row2 != null) {
+
+             
+               // description = row2.description;
+                //theLeaveType = row2.leaveType;
+                //startDate = row2.startDate;
+               // endDate = row2.endDate;
+                //shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+                //shortEndDate = endDate.ToString("dd-MMMM-yyyy");
+                //inttotalDays = row2.totalDays;
+                //requestStatus = row2.requestStatus;
+                
+                
+               
+            //}
+
+                
+               
+                <fieldset>
+                <legend>Your Leave Requests</legend>
+                <table border="1" width="100%"> 
+
+                
+                
+                <tr bgcolor="grey">
+                <th>Description</th> 
+                <th>Leave Type</th> 
+                <th>Start Date</th> 
+                <th>End Date</th> 
+                <th>Total days leave requested</th> 
+                <th>Request Status</th> 
+                </tr>
+
+               @foreach(var rows2 in rows1){
+                <tr>
+                
+                <th>@rows2.description</th>
+                <th>@rows2.leaveType</th> 
+                <th>@rows2.startDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.endDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.totalDays</th> 
+                <th>@rows2.requestStatus</th> 
+                </tr>
+                  }  
+                </table>
+
+                </fieldset>
+
+               
+           
+
+
+
+
+              
+            
+    }else{
+        
+        <p><a href="@Href("~/Login")">Please log in</a></p>
+    }
+       

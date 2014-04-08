@@ -1,0 +1,66 @@
+﻿@{
+    
+    Layout = "~/_Layout.cshtml";
+     Page.Title = "ALL Tasks";   
+
+
+    
+
+   
+
+   
+     /////<!-- Open a database connection-->
+        var db = Database.Open("Annual Leave System");
+
+       
+         var dbCommand2 = "SELECT * FROM LeaveRequests ORDER BY startDate ASC";
+         var rows1 = db.Query(dbCommand2);
+
+    ///////////////////////////////////////////////
+
+   
+}
+
+
+       <fieldset>
+                <legend>ALL Employee Leave Requests</legend>
+                <table border="1" width="100%"> 
+
+                
+                
+                <tr bgcolor="grey">
+                <th>First Name</th> 
+                <th>Last Name</th> 
+                <th>Description</th> 
+                <th>Leave Type</th> 
+                <th>Start Date</th> 
+                <th>End Date</th> 
+                <th>Total days leave requested</th> 
+                <th>Request Status</th> 
+                </tr>
+
+               @foreach(var rows2 in rows1){
+                <tr>
+                
+                <th>@rows2.firstName</th>
+                <th>@rows2.lastName</th>
+                <th>@rows2.description</th>
+                <th>@rows2.leaveType</th> 
+                <th>@rows2.startDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.endDate.ToString("dd-MMMM-yyyy")</th> 
+                <th>@rows2.totalDays</th> 
+                <th>@rows2.requestStatus</th> 
+                </tr>
+                  }  
+                </table>
+
+                </fieldset>
+
+        <p>
+        <a href="@Href("~/Logout")">Log out</a>
+        <br/>
+        <a href="@Href("~/Home")">Home</a>
+        </p>
+
+      
+        Add if not logged in check ///////////////////////////////////////////////////////// and covert date string

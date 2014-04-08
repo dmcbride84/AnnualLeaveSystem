@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="@Href("~/validation.css")" type="text/css" />
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+        <p>This is the home page.</p>
+        <p>
+          @if(WebSecurity.IsAuthenticated){
+            @:<p>Welcome, @WebSecurity.CurrentUserName</p>
+
+            @: <p><a href="@Href("~/calendar")">View Calendar</a></p>
+            @: <p><a href="@Href("~/requestform")">Request Leave</a></p>
+            @: <p><a href="@Href("~/Register")">Register</a></p>
+            @:<p><a href="@Href("~/Members")">members</a></p>
+            @:<p><a href="@Href("~/Logout")">Log out</a></p>
+          }
+          else{
+            @:<a href="@Href("~/Login")">Log in</a> |
+            @:<a href="@Href("~/Register")">Register</a>
+          }
+        </p>
+      <p>
+        <a href="@Href("~/Admin/ManageRoles")">Manage Roles</a> (must be logged in as the Admin user)
+      </p>
+    </body>
+</html>

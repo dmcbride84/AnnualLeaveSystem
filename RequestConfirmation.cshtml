@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Request Confirmation";   
+
+    var customerName = Request["customerName"];
+    var customerEmail = Request["customerEmail"]; 
+    var customerRequest = Request["customerRequest"];
+    var errorMessage = "";
+    var debuggingFlag = true;
+    
+    try {
+        // Initialize WebMail helper
+        WebMail.EnableSsl = true;
+        
+        WebMail.SmtpServer = "smtp.gmail.com";
+        WebMail.SmtpPort = 587;
+        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.Password = "dublin09";
+        WebMail.From = "derek.skybc3@gmail.com"; // change to admin a
+
+        // Send email
+        WebMail.Send(to: customerEmail,
+            subject: "Help request from - " + customerName,
+            body: customerRequest
+        );
+    }
+    catch (Exception ex ) {
+        errorMessage = ex.Message;
+    }
+}
+
+    <h2>Request Confirmation </h2>
+
+    Thank you for your request. Your request has been sent to your line manager for review.
+
+    <br/><br/><br/>
+    <a href="@Href("~/Logout")">Log out</a>
+    <br/>
+    <a href="@Href("~/Home")">Home</a>
+  

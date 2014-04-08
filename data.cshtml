@@ -1,0 +1,18 @@
+﻿@{
+     
+     Response.ContentType = "text/xml"; 
+     var db = Database.Open("SchedulerWebMatrix");
+     var evs = db.Query("SELECT id, text, start_date, end_date FROM Events");
+
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    Layout = "~/_Layout.cshtml";
+    @foreach(var ev in evs){
+        <event id="@ev.id">
+            <text><![CDATA[@ev.text]]></text>
+            <start_date><![CDATA[@ev.start_date.ToString("yyyy-MM-dd HH:mm")]]></start_date>
+            <end_date><![CDATA[@ev.end_date.ToString("yyyy-MM-dd HH:mm")]]></end_date>
+        </event>
+    }
+</data>

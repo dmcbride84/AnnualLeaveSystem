@@ -1,0 +1,138 @@
+﻿@{
+    
+  Layout = "~/_Layout.cshtml";
+  Page.Title = "Add New User";  
+  
+  <!-- This is validation for the html form to make sure the user enters data into all the revelant fields when submitting the form-->
+
+    Validation.RequireField("firstName", "Please enter a first name");
+    Validation.RequireField("lastName", "Please enter a last name");
+    Validation.RequireField("username", "Please enter a username (email address)");
+    Validation.RequireField("totaldays", "You must enter the total leave days to be taken");
+    Validation.RequireField("annualLeaveDays", "Please enter annual leave days");
+    //Validation.RequireField("password", "please enter password");
+    //Validation.RequireField("confirmPassword", "please confirm password"); 
+
+  var firstName="";
+  var lastName="";
+  var username = "";
+  var lineManager="";
+  var varAnnualLeaveDays="";
+  int intAnnualLeaveDays=0;
+  var password = "";
+  var confirmPassword = "";
+  var errorMessage = "";
+
+  
+  
+  if(!IsPost){
+    if(WebSecurity.IsAuthenticated){
+      //errorMessage = String.Format("You are already logged in. (User name: {0})", WebSecurity.CurrentUserName);
+    }
+  }
+   
+  if(IsPost && Validation.IsValid()){
+    //WebSecurity.Logout();
+      
+    firstName = Request["firstName"];
+    lastName = Request["lastName"];
+    lineManager = Request["lineManager"];
+    varAnnualLeaveDays = Request["annualLeaveDays"];
+    intAnnualLeaveDays = varAnnualLeaveDays.AsInt();
+    username = Request["username"];
+    password = Request["password"];
+    confirmPassword = Request["confirmPassword"];
+ 
+    if(password != confirmPassword){
+      errorMessage = "Passwords don't match.";
+    }
+    else {
+      if(WebSecurity.UserExists(username)){
+        errorMessage = String.Format("User '{0}' already exists.", username);
+      }
+      else{
+        WebSecurity.CreateUserAndAccount(username,password,null,false);
+        errorMessage = String.Format("{0} created.", username);
+
+        //////////
+         
+         var db = Database.Open("Annual Leave System");
+         var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1, LineManager=@2, annualLeaveDays=@3 WHERE email =@4";
+         db.Execute(updateCommand,firstName,lastName,lineManager,intAnnualLeaveDays,username);
+         Response.Redirect("~/Admin/ManageRoles");
+
+
+        ///////////
+
+
+
+      }
+    }
+  }
+}
+ 
+
+    <h2>Register a new User</h2>
+    <form method="post" class="basic-grey">
+      <p>
+        @if(errorMessage != ""){
+            <span class="errorMessage">@Html.Raw(errorMessage)</span>
+        }
+
+        </p>
+      
+
+        <p>
+        <label for="firstName">First Name:</label><br/>
+        <input type="text" name="firstName" id="firstName" value='@Request["firstName"]' />
+        @Html.ValidationMessage("firstName")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+      </p>
+
+        <p>
+        <label for="lastName">Last Name:</label><br/>
+        <input type="text" name="lastName" id="lastName" value='@Request["lastName"]' />
+         @Html.ValidationMessage("lastName")
+      </p>
+ 
+      <p>
+        <label for="username">Username (email):</label><br/>
+        <input type="email" name="username" id="username" value='@Request["username"]' />
+         @Html.ValidationMessage("username")
+      </p>
+
+      <p>
+        <label for="lineManager">Line Manager:</label><br/>
+        <input type="text" name="lineManager" id="lineManager" value='@Request["lineManager"]' />
+         @Html.ValidationMessage("lineManager")
+      </p>
+
+      <p>
+        <label for="annualLeaveDays">Annual Leave Days:</label><br/>
+        <input type="number" name="annualLeaveDays" id="annualLeaveDays" value='@Request["annualLeaveDays"]' />
+         @Html.ValidationMessage("annualLeaveDays")
+      </p>
+
+
+      <p>
+        <label for="password">Password:</label><br/>
+        <input type="password" name="password" id="password" value="" />
+         @Html.ValidationMessage("password")
+      </p>   
+      <p>
+        <label for="confirmPassword">Confirm password:</label><br/>
+        <input type="password" name="confirmPassword" id="confirmPassword" value="" />
+         @Html.ValidationMessage("confirmPassword")
+      </p>   
+ 
+      <p>
+        <input type="submit" value="Submit" />
+      </p>   
+      <p>
+        <a href="@Href("~/Logout")">Log out</a>
+        <br/>
+        <a href="@Href("~/Home")">Home</a>
+        </p>
+      </form>
+
+     
+  

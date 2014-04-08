@@ -1,0 +1,189 @@
+﻿@{
+    
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Request Form";   
+    
+    <!-- This is validation for the html form to make sure the user enters data into all the revelant fields when submitting the form-->
+
+    Validation.RequireField("theLeaveType", "Please select a leave type");
+    Validation.RequireField("sdate", "You must enter a start date");
+    Validation.RequireField("edate", "You must enter a end date");
+    Validation.RequireField("totaldays", "You must enter the total leave days to be taken");
+
+
+    <!-- create variables to store the html form input values and intialise these variables to emptpy value-->
+    
+    var theUserName = WebSecurity.CurrentUserName;
+    var theFirstName ="";
+    var theLastName ="";
+    var email = theUserName;
+    var theLineManager ="";
+    var theLeaveType="";
+    var thedescription = "";
+    var thestartDate ="";
+    var theendDate = "";
+    var totalLeaveDays = "";  <!-- try and make this int instead of varialbe-->
+    var theRequestStatus="Pending";
+   
+
+            
+     
+
+
+ 
+    //////////////////////////////////////////////////////////check user must be logged in///////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    <!-- Check if all Fields are set and validated-->
+
+    if(IsPost && Validation.IsValid()){
+
+        <!-- store the values entered by the user on the form into these variables -->
+
+        thedescription = Request.Form["description"];
+        theLeaveType = Request.Form["theLeaveType"];
+        thestartDate = Request.Form["sdate"];
+        theendDate = Request.Form["edate"];
+        totalLeaveDays = Request.Form["totaldays"];
+
+        
+
+
+        
+        
+
+        <!-- Open a database connection-->
+        var db = Database.Open("Annual Leave System");
+
+        /////////////////////////
+
+         var dbCommand = "SELECT * FROM UserProfile WHERE email = @0";
+         var row = db.QuerySingle(dbCommand, theUserName);
+
+            if(row != null) {
+               
+                theFirstName = row.firstName;
+                theLastName = row.lastName;
+                theLineManager = row.lineManager;
+
+
+               
+            }
+
+
+            
+                 <!-- create and sql statement -->
+        var insertCommand = "INSERT INTO LeaveRequests (firstName, lastName, description, startDate, endDate, totalDays, lineManager, requestStatus,leaveType, email ) VALUES(@0, @1, @2, @3,@4,@5,@6,@7,@8,@9)";
+
+        <!-- Run the sql statement-->
+        db.Execute(insertCommand, theFirstName,theLastName, thedescription, thestartDate, theendDate, totalLeaveDays, theLineManager,theRequestStatus,theLeaveType,email);
+                
+   
+        /////////////////////////////////////////////////  
+        
+   // var shortStartDate = thestartDate.ToString("dd-MMMM-yyyy"); //Convert date time to string format EG. 12-mar-2014
+   // var shortEndDate = theendDate.ToString("dd-MMMM-yyyy");            
+    
+    //var customerName = Request["customerName"];
+    var employeeEmail = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    var employeeRequest ="Hi "+ theLineManager +"," +"<br/><br/>" + " a request for leave has been made by  "+theFirstName+ " " +theLastName +"<br/><br/>"; ///add details of request in email message
+    //var customerRequest = Request["customerRequest"];
+    var Details = "<b>Description:</b> " + thedescription + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ thestartDate +"<br/> <br/> " + "<b>End Date:</b> " + theendDate +"<br/> <br/>" + "<b>Total Days:</b> " +totalLeaveDays +"<br/><br/><b><i><u> Please log onto the website to process this request</u></i></b>"+"<br/><br/> Thank you";
+    var errorMessage = "";
+    var pass="dublin09";//////////////////// change this to get users password
+    var debuggingFlag = true;
+    
+    try {
+        // Initialize WebMail helper
+        WebMail.EnableSsl = true;
+        
+        WebMail.SmtpServer = "smtp.gmail.com";
+        WebMail.SmtpPort = 587;
+        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.Password = pass; ///////////////////////////////////////set up to get users password
+        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+
+        // Send email
+        WebMail.Send(to: employeeEmail,
+            subject: "Leave Request - " + theFirstName + theLastName,
+            body: employeeRequest + Details
+        );
+    }
+    catch (Exception ex ) {
+        errorMessage = ex.Message;
+    }
+
+
+        //////////////////////////
+
+            
+
+
+    
+
+        <!-- redirect to a certain page-->
+        Response.Redirect("~/RequestConfirmation");
+        
+        
+       
+    }
+}
+
+
+  <h2>Leave Request Form</h2>
+
+    <!-- this may be used as a summary " @Html.ValidationSummary()""-->
+
+    <!-- html form -->
+
+  <form method="post" class="basic-grey" >
+    <fieldset>
+      <legend>Leave request details</legend>
+      <p><label for="description">Description:</label>
+         <input type="text" name="description" value="@Request.Form["description"]" />  <!-- the Request.Form  method stores the value enter by the user-->
+          
+      </p>
+
+        <p>
+            <label for="Leave Type">Leave Type:</label>
+            <select name="theLeaveType">
+            <option value=""></option>
+             <option value="Annual Leave">Annual Leave</option>
+             <option value="Time Off Without Pay">Time Off Without Pay</option>
+             <option value="Maternity/Paternity">Maternity/Paternity</option>
+             <option value="Breavement">Breavement</option>
+             <option value="Jury Duty">Jury Duty</option>
+             <option value="Training">Training</option>
+             <option value="Other">Other</option>
+            </select> 
+             @Html.ValidationMessage("theLeaveType")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+        </p>
+
+      <p><label for="start date">Start Date:</label>
+         <input type="date" name="sdate" value="@Request.Form["sdate"]" />
+          @Html.ValidationMessage("sdate")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+      </p>
+
+      <p><label for="end date">End Date:</label>
+         <input type="date" name="edate" value="@Request.Form["edate"]" />
+          @Html.ValidationMessage("edate")
+      </p>
+      <p><label for="total days">Total Leave Days:</label>
+         <input type="number" name="totaldays" value="@Request.Form["totaldays"]" />
+          @Html.ValidationMessage("totaldays")
+      </p>
+
+      <p><input type="submit" name="btnSubmit" value="Submit" /></p>
+    </fieldset>
+  </form>
+
+
+    <br/><br/><br/>
+    <a href="@Href("~/Logout")">Log out</a>
+    <br/>
+    <a href="@Href("~/Home")">Home</a>
+    <br/>
+    ------------------------------------check end date is after start date validation------------and if date has passed------------should not submit annual leave request if you do not have the days available---------------------------
+
+    
+

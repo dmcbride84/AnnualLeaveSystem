@@ -1,0 +1,7 @@
+﻿@{
+    Response.CacheControl = "no-cache";
+ 
+    if (!WebSecurity.IsAuthenticated) {
+        Response.Redirect("~/Login");
+    }
+}

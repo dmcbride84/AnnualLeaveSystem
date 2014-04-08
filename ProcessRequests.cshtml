@@ -1,0 +1,349 @@
+﻿@{
+
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Process Request";       
+
+    var lineManager="";
+    var firstName = "";
+    var lastName = "";
+    var description = "";
+    var theLeaveType="";
+    DateTime startDate= DateTime.Now ;  
+    DateTime endDate = DateTime.Now  ;
+    var shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+    var shortEndDate = startDate.ToString("dd-MMMM-yyyy");
+    var vartotalDays= "";
+    int inttotalDays=0;
+    int totalLeaveDays= 0;
+    var requestStatus = "";
+    int updatedLeaveDays = 0;
+    var ID = "";
+    var email="";
+    var calendarDetails="";
+
+    
+
+
+   ///// <p><label for="requestStatus">Request Status:</label>
+   //////      <input type="text" name="requestStatus" value="@requestStatus" /></p>
+
+
+
+   ////// remember to updated registor form to include email address in leave request tables------------------------------
+
+
+
+
+    
+
+
+    if(!IsPost){
+        if(!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt()) {
+            ID = Request.QueryString["ID"];
+            var db = Database.Open("Annual Leave System");
+            var dbCommand = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, ID);
+            //var grid = new WebGrid(source: dbCommand,ID, rowsPerPage: 10);
+            
+            //////////////////////////////////////////////////
+
+
+
+            ///////////////////////////////////////////////////
+
+            
+
+            
+
+            if(row != null) {
+               
+                firstName = row.firstName;
+                lastName = row.lastName;
+                description = row.description;
+                theLeaveType = row.leaveType;
+                startDate = row.startDate;
+                endDate = row.endDate;
+                shortStartDate = startDate.ToString("dd-MMMM-yyyy");
+                shortEndDate = endDate.ToString("dd-MMMM-yyyy");
+                inttotalDays = row.totalDays;
+                requestStatus = row.requestStatus;
+                email = row.email;
+                lineManager = row.lineManager;
+                
+               
+            }
+            else{
+                Validation.AddFormError("No Request was selected.");
+            }
+        }
+        else{
+            Validation.AddFormError("No Request was selected.");
+        }
+    }
+
+     
+
+    if(IsPost){
+        
+        //Validation.RequireField("firstName", "Please enter a first name");
+        //Validation.RequireField("lastName", "Please enter a first name");
+        //Validation.RequireField("email", "You must enter an email address");
+        //Validation.RequireField("UserID", "No User ID was submitted!");
+
+        
+        //firstName = Request.Form["firstName"];
+        //lastName = Request.Form["lastName"];
+        //description = Request.Form["description"];
+        //varStartDate = Request.Form["sdate"];
+
+        
+        //startDate = varStartDate.AsDateTime();
+        //endDate = Request.Form["edate"];
+        //totalDays = Request.Form["totalDays"];
+        requestStatus = Request.Form["requestStatus"];
+        
+        //vartotalDays = Request.Form["totaldays"];
+        //inttotalDays = vartotalDays.AsInt();
+        
+        ID = Request.Form["ID"];
+
+       
+
+        if(Validation.IsValid()){
+            var db = Database.Open("Annual Leave System");
+            var updateCommand = "UPDATE LeaveRequests SET requestStatus =@0 WHERE ID =@1";
+            db.Execute(updateCommand,requestStatus, ID);
+            //Response.Redirect("~/tasks");
+
+
+            //////////////////////send notifcation email////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////
+
+
+            //Update employees annual leave days if request is approved and annual leave if select as the leave type
+           
+            ///////////////////
+
+            //var db = Database.Open("Annual Leave System");
+            var dbCommand2 = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            var row2 = db.QuerySingle(dbCommand2, ID);
+            email = row2.email;
+
+            /////////////////
+
+            /////////////
+
+            var dbCommand3 = "SELECT * FROM LeaveRequests WHERE ID = @0";
+            var row3 = db.QuerySingle(dbCommand3, ID);
+            inttotalDays = row3.totaldays;
+            theLeaveType = row3.leaveType;
+            description = row3.description;
+            startDate = row3.startDate;
+            endDate = row3.endDate;
+
+
+            var dbCommand4 = "SELECT * FROM UserProfile WHERE email = @0";
+            var row4 = db.QuerySingle(dbCommand4, email);
+            totalLeaveDays = row4.annualLeavedays;
+            firstName = row4.firstName;
+            lastName = row4.lastName;
+
+            //////////update annual leave days if annual leave request is approved
+            calendarDetails = firstName +"  "+lastName+" - "+theLeaveType+" - "+description;
+
+            if(requestStatus =="Approved" ){
+
+
+                // Add approved days to leave calendar database////////////////////////////////////////////
+
+             var db2 = Database.Open("SchedulerWebMatrix");
+        
+
+                <!-- create and sql statement -->
+             var insertCommand = "INSERT INTO Events (text, start_date, end_date) VALUES(@0, @1, @2)";
+
+                <!-- Run the sql statement-->
+               db2.Execute(insertCommand,calendarDetails,startDate,endDate );
+                
+
+            }
+
+            else if(requestStatus =="Approved" && theLeaveType =="Annual Leave" ){
+               
+               
+
+               updatedLeaveDays = totalLeaveDays - inttotalDays;
+
+
+        // Add approved days to leave calendar database////////////////////////////////////////////
+
+        var db2 = Database.Open("SchedulerWebMatrix");
+        
+
+        <!-- create and sql statement -->
+        var insertCommand = "INSERT INTO Events (text, start_date, end_date) VALUES(@0, @1, @2)";
+
+        <!-- Run the sql statement-->
+        db2.Execute(insertCommand,calendarDetails,startDate,endDate );
+
+
+                     /////////////////////////////////send email notification with updated annual leave days if approved
+
+    var employeeEmail2 = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    var employeeRequest2 ="Hi "+ firstName +" " + lastName +"," +"<br/><br/>" + " Your request for Leave has been " +"<b>"  +requestStatus +"</b>" +" by your line Manager <br/><br/>" ;
+    //var customerRequest = Request["customerRequest"];
+    var Details2 = "<b><u>Request Details:</u><b> <br/><br/> "+ "<b>Description:</b> " + description + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ startDate +"<br/> <br/> " + "<b>End Date:</b> " + endDate +"<br/> <br/>" + "<b>Total Days:</b> "+inttotalDays +"<br/><br/> You have " + updatedLeaveDays +" Annual Leave days remaining <br/><br/> Thank you for your Request";
+    var errorMessage2 = "";
+    var pass2="dublin09";//////////////////// change this to get users password
+    var debuggingFlag2 = true;
+    
+    try {
+        // Initialize WebMail helper
+        WebMail.EnableSsl = true;
+        
+        WebMail.SmtpServer = "smtp.gmail.com";
+        WebMail.SmtpPort = 587;
+        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.Password = pass2; ///////////////////////////////////////set up to get users password
+        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+
+        // Send email
+        WebMail.Send(to: employeeEmail2,
+            subject: "Leave Request - " + firstName + lastName,
+            body: employeeRequest2 + Details2
+        );
+    }
+    catch (Exception ex ) {
+        errorMessage2 = ex.Message;
+    }
+
+
+              
+
+            //var db = Database.Open("Annual Leave System");
+            var updateCommand2 = "UPDATE UserProfile SET annualLeaveDays =@0 WHERE email =@1";
+            db.Execute(updateCommand2,updatedLeaveDays, email);
+            Response.Redirect("~/tasks");
+
+            }
+
+
+            ////////////////////////////////////////
+
+            /////////////////////////////////send email notification
+
+    var employeeEmail = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    var employeeRequest ="Hi "+ firstName +" " + lastName +"," +"<br/><br/>" + " Your request for Leave has been " +"<b>"  +requestStatus +"</b>" +" by your line Manager <br/><br/>" ;
+    //var customerRequest = Request["customerRequest"];
+    var Details = "<b><u>Request Details:</u><b> <br/><br/> "+ "<b>Description:</b> " + description + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ startDate +"<br/> <br/> " + "<b>End Date:</b> " + endDate +"<br/> <br/>" + "<b>Total Days:</b> "+inttotalDays +"<br/><br/> You have " + totalLeaveDays +" Annual Leave days remaining <br/><br/> Thank you for your Request";
+    var errorMessage = "";
+    var pass="dublin09";//////////////////// change this to get users password
+    var debuggingFlag = true;
+    
+    try {
+        // Initialize WebMail helper
+        WebMail.EnableSsl = true;
+        
+        WebMail.SmtpServer = "smtp.gmail.com";
+        WebMail.SmtpPort = 587;
+        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.Password = pass; ///////////////////////////////////////set up to get users password
+        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+
+        // Send email
+        WebMail.Send(to: employeeEmail,
+            subject: "Leave Request - " + firstName + lastName,
+            body: employeeRequest + Details
+        );
+    }
+    catch (Exception ex ) {
+        errorMessage = ex.Message;
+    }
+
+
+
+
+            ///////////////////////////////////
+
+
+
+            //////////////  && theLeaveType =="Annual Leave"
+           
+            
+
+            Response.Redirect("~/tasks");
+
+
+            ////////////////close database////////////////////////////
+                
+
+            
+            
+           
+        }
+    }
+
+
+}
+
+
+
+  <h2>Process Leave Request</h2>
+    @Html.ValidationSummary()
+
+
+
+<fieldset>
+<legend>Employee Leave Request Details</legend>
+<table border="1" width="100%"> 
+
+<tr bgcolor="grey">
+<th>First Name</th> 
+<th>Last Name</th> 
+<th>Description</th> 
+<th>Leave Type</th> 
+<th>Start Date</th> 
+<th>End Date</th> 
+<th>Total days leave requested</th> 
+</tr>
+<tr>
+<th>@firstName</th> 
+<th>@lastName</th>
+<th>@description</th>
+<th>@theLeaveType</th> 
+<th>@shortStartDate</th> 
+<th>@shortEndDate</th> 
+<th>@inttotalDays</th> 
+</tr>
+
+</table>
+
+<br/>
+  </center><center><form method="post">
+    
+        <p>
+            <label for="end date"><h4>Approve/Reject Request:</h4> </label>
+            <select name="requestStatus">
+            <option value="@requestStatus">@requestStatus</option>
+             <option value="Pending">Pending</option>
+             <option value="Approved">Approved</option>
+             <option value="Rejected">Rejected</option>
+            </select> 
+        </p>
+
+      <input type="hidden" name="ID" value="@ID" />
+
+      <p><input type="submit" name="buttonSubmit" value="Submit" /></p>
+    </fieldset>
+  </form></center>
+
+    <br/>
+    <a href="@Href("~/tasks")"><--back</a>
+    <br/>
+    <a href="@Href("~/Logout")">Log out</a>
+    <br/>
+    <a href="@Href("~/Home")">Home</a>
+    <br/>
+    @startDate @endDate @description
+ 
+

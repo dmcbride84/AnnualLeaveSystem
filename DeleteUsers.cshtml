@@ -1,0 +1,107 @@
+﻿@{
+    
+    Layout = "~/_Layout.cshtml"; 
+    Page.Title = "Edit User";      
+
+    var varfirstName = "";
+    var varlastName = "";
+    var varemail = "";
+    var varlineManager = "";
+    int intannualLeaveDays = 0;
+    var varUserID = "";
+
+    if(!IsPost){
+        if(!Request.QueryString["UserID"].IsEmpty() && Request.QueryString["UserID"].IsInt()) {
+            varUserID = Request.QueryString["UserID"];
+            var db = Database.Open("Annual Leave System");
+            var dbCommand = "SELECT * FROM UserProfile WHERE UserID = @0";
+            var row = db.QuerySingle(dbCommand, varUserID);
+
+            if(row != null) {
+               
+                varfirstName = row.firstName;
+                varlastName = row.lastName;
+                varemail = row.email;
+                varlineManager = row.lineManager;
+                intannualLeaveDays = row.annualLeaveDays;
+               
+            }
+            else{
+                Validation.AddFormError("No User was selected.");
+            }
+        }
+        else{
+            Validation.AddFormError("No User was selected.");
+        }
+    }
+
+     
+
+    if(IsPost){
+        
+        //Validation.RequireField("firstName", "Please enter a first name");
+        //Validation.RequireField("lastName", "Please enter a first name");
+        //Validation.RequireField("email", "You must enter an email address");
+        //Validation.RequireField("UserID", "No User ID was submitted!");
+
+        
+        //varfirstName = Request.Form["firstName"];
+        //varlastName = Request.Form["lastName"];
+        //varemail = Request.Form["email"];
+        //varlineManager = Request.Form["linemanager"];
+        //intannualLeaveDays = Request.Form["intannualLeaveDays"];
+        //var annualLeaveDays = Request.Form["intannualLeaveDays"];
+        
+        varUserID = Request.Form["UserID"];
+       //intannualLeaveDays = annualLeaveDays.AsInt();
+
+       
+
+        if(Validation.IsValid()){
+            var db = Database.Open("Annual Leave System");
+            var updateCommand = "DELETE UserProfile WHERE  UserID =@0";
+            db.Execute(updateCommand, varUserID);
+            Response.Redirect("~/staffList");
+            
+           
+        }
+    }
+
+
+}
+
+
+
+  <h2>Delete User</h2>
+    @Html.ValidationSummary()
+  <form method="post" class="basic-grey">
+    <fieldset>
+      <legend>User Information</legend>
+
+      <p><label for="firstName">First Name:</label>
+         <input type="text" name="firstName" value="@varfirstName" /></p>
+
+        <p><label for="lastName">Last Name:</label>
+         <input type="text" name="lastName" value="@varlastName" /></p>
+
+        <p><label for="email">Email:</label>
+         <input type="text" name="email" value="@varemail" /></p>
+
+        <p><label for="lineManager">Line Manager:</label>
+         <input type="text" name="lineManager" value="@varlineManager" /></p>
+
+        <p><label for="intannualLeaveDays">Annual Leave Days Available:</label>
+         <input type="number" name="intannualLeaveDays" value="@intannualLeaveDays" /></p>
+
+      <input type="hidden" name="UserID" value="@varUserID" />
+
+      <p><input type="submit" name="buttonSubmit" value="Delete" /></p>
+    </fieldset>
+  </form>
+
+    <br/>
+    <a href="@Href("~/staffList")"><-- Back</a>
+    <br/>
+    <a href="@Href("~/Logout")">Log out</a>
+    <br/>
+    <a href="@Href("~/Home")">Home</a>------------------add box up to confirm delete

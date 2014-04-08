@@ -1,0 +1,7 @@
+﻿@{
+    Response.CacheControl = "no-cache";
+    // Determine whether current user is in Admin role
+    if (!Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator")){
+      Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+} 

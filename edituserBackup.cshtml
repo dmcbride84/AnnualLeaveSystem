@@ -1,0 +1,103 @@
+﻿@{
+    
+    <!-- This is validation for the html form to make sure the user enters data into all the revelant fields when submitting the form-->
+
+    Validation.RequireField("fName", "Please enter a first name");
+    Validation.RequireField("lName", "Please enter a last name");
+    Validation.RequireField("manager", "Please enter a line Manager");
+    Validation.RequireField("annDays", "Please enter annual leave days");
+
+
+    <!-- create variables to store the html form input values and intialise these variables to emptpy value-->
+    
+    var theFirstName = "";
+    var theLastName = "";
+    var theLineManager = "";
+    var annualLeaveDays = "";  <!-- try and make this int instead of varialbe-->
+   
+
+
+   
+
+    
+
+    <!-- Check if all Fields are set and validated-->
+
+    if(IsPost && Validation.IsValid()){
+
+        <!-- store the values entered by the user on the form into these variables -->
+
+        theFirstName = Request.Form["fName"];
+        theLastName = Request.Form["lName"];
+        theLineManager = Request.Form["manager"];
+        annualLeaveDays = Request.Form["annDays"];
+        
+
+        <!-- Open a database connection-->
+        var db = Database.Open("Annual Leave System");
+
+        <!-- create and sql statement -->
+        var insertCommand = "INSERT INTO Users (firstName, lastName, lineManager, annualLeaveDays ) VALUES(@0, @1, @2, @3)";
+
+        <!-- Run the sql statement-->
+        db.Execute(insertCommand, theFirstName, theLastName, theLineManager, annualLeaveDays);
+
+        <!-- redirect to a certain page-->
+        Response.Redirect("~/adduser");
+        
+        
+    }
+}
+
+<!DOCTYPE html> <!-- This is the doctype for html 5 , the doctype for html 4 is different and is a choice of 3 ---->
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Edit User detials </title>
+
+    <!-- CSS styling for the webpage external style sheets used-->
+
+    <link rel="stylesheet" type="text/css" href="~/Styles/validation.css">
+
+</head>
+<body>
+  <h1>Edit User Details</h1>
+
+    <!-- this may be used as a summary " @Html.ValidationSummary()""-->
+
+    <!-- html form -->
+
+    <p>Use a drop down list to select users then show form with user details when user is selected </p>
+
+  <form method="post">
+    <fieldset>
+      <legend>Edit Users details</legend>
+      <p><label for="First Name">First Name:</label>
+         <input type="text" name="fName" value="@Request.Form["fName"]" />  <!-- the Request.Form  method stores the value enter by the user-->
+          @Html.ValidationMessage("fName")
+          
+      </p>
+
+      <p><label for="Last Name">Last Name:</label>
+         <input type="text" name="lName" value="@Request.Form["lName"]" />
+          @Html.ValidationMessage("lName")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+      </p>
+
+      <p><label for="Line Manager">Line Manager:</label>
+         <input type="text" name="manager" value="@Request.Form["manager"]" />
+          @Html.ValidationMessage("manager")
+      </p>
+      <p><label for="Annual Leave Days">Annual Leave Days:</label>
+         <input type="number" name="annDays" value="@Request.Form["annDays"]" />
+          @Html.ValidationMessage("annDays")
+      </p>
+
+       
+
+        
+
+      <p><input type="submit" name="btnSubmit" value="Submit" /></p>
+    </fieldset>
+  </form>
+</body>
+</html>
