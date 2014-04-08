@@ -1,0 +1,14 @@
+﻿@{
+    
+
+
+var db = Database.Open("Annual Leave System");
+var adminName = "The";
+var data = db.Query("SELECT firstName, annualLeaveDays  FROM UserProfile WHERE firstName != 'The' ");
+var myChart = new Chart(width: 600, height: 400)
+.AddTitle("Employee Available Annual leave days")
+.DataBindTable(dataSource: data, xField: "firstName")
+.Write();
+    
+}
+
