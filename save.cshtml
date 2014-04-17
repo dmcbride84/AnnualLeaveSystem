@@ -8,6 +8,8 @@
    var status = Request.Form["!nativeeditor_status"];
    var sourceId = Request.Form["id"];
    var targetId = sourceId;
+
+   //// add if statement so employee cant edit, save and delete events//////////////
    try{
        switch (status){
            case "inserted":
