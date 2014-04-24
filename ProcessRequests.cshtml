@@ -164,30 +164,19 @@
 
                 <!-- Run the sql statement-->
                db2.Execute(insertCommand,calendarDetails,startDate,endDate );
+
+               if(theLeaveType == "Annual Leave"){
+                   
+                   updatedLeaveDays = totalLeaveDays - inttotalDays;
+
+                   // update the users annual leave days if request is approved and the leave type is "Annual Leave"
+
+                var db3 = Database.Open("Annual Leave System");
+                var updateCommand3 = "UPDATE UserProfile SET annualLeaveDays =@0 WHERE email =@1";
+                db3.Execute(updateCommand3,updatedLeaveDays, email);
                 
 
-            }
-
-            else if(requestStatus =="Approved" && theLeaveType =="Annual Leave" ){
-               
-               
-
-               updatedLeaveDays = totalLeaveDays - inttotalDays;
-
-
-        // Add approved days to leave calendar database////////////////////////////////////////////
-
-        var db2 = Database.Open("SchedulerWebMatrix");
-        
-
-        <!-- create and sql statement -->
-        var insertCommand = "INSERT INTO Events (text, start_date, end_date) VALUES(@0, @1, @2)";
-
-        <!-- Run the sql statement-->
-        db2.Execute(insertCommand,calendarDetails,startDate,endDate );
-
-
-                     /////////////////////////////////send email notification with updated annual leave days if approved
+                /////////////////////////////////send email notification with updated annual leave days if approved
 
     var employeeEmail2 = "derek.skybc3@gmail.com"; /////////////change this to get users email
     var employeeRequest2 ="Hi "+ firstName +" " + lastName +"," +"<br/><br/>" + " Your request for Leave has been " +"<b>"  +requestStatus +"</b>" +" by your line Manager <br/><br/>" ;
@@ -217,16 +206,13 @@
         errorMessage2 = ex.Message;
     }
 
-
-              
-
-            //var db = Database.Open("Annual Leave System");
-            var updateCommand2 = "UPDATE UserProfile SET annualLeaveDays =@0 WHERE email =@1";
-            db.Execute(updateCommand2,updatedLeaveDays, email);
-            Response.Redirect("~/tasks");
-
+               }
+                
+               
             }
 
+          
+            //Response.Redirect("~/Managers/tasks");
 
             ////////////////////////////////////////
 
@@ -271,7 +257,7 @@
            
             
 
-            Response.Redirect("~/tasks");
+            //Response.Redirect("~/Managers/tasks");
 
 
             ////////////////close database////////////////////////////
@@ -338,12 +324,12 @@
   </form></center>
 
     <br/>
-    <a href="@Href("~/tasks")"><--back</a>
+    <a href="@Href("~/Managers/tasks")"><--back</a>
     <br/>
     <a href="@Href("~/Logout")">Log out</a>
     <br/>
     <a href="@Href("~/Home")">Home</a>
     <br/>
-    @startDate @endDate @description
+    @startDate @endDate @description @totalLeaveDays @inttotalDays  @updatedLeaveDays
  
 
