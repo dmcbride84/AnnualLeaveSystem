@@ -24,7 +24,10 @@
     var theendDate = "";
     var totalLeaveDays = "";  <!-- try and make this int instead of varialbe-->
     var theRequestStatus="Pending";
-   
+    int TotalAnnualLeaveDays=0;
+    int intTotalLeaveDays = totalLeaveDays.AsInt();
+    var errorMessagedays = "";
+    
 
             
      
@@ -45,6 +48,8 @@
         thestartDate = Request.Form["sdate"];
         theendDate = Request.Form["edate"];
         totalLeaveDays = Request.Form["totaldays"];
+        intTotalLeaveDays = totalLeaveDays.AsInt();
+        
 
         
 
@@ -65,12 +70,17 @@
                 theFirstName = row.firstName;
                 theLastName = row.lastName;
                 theLineManager = row.lineManager;
+                TotalAnnualLeaveDays = row.annualLeaveDays;
 
 
                
             }
 
+            if(intTotalLeaveDays > TotalAnnualLeaveDays){
+                
+                errorMessagedays ="Sorry you do not have that many annual leave days available";
 
+            }else if(intTotalLeaveDays <= TotalAnnualLeaveDays){
             
                  <!-- create and sql statement -->
         var insertCommand = "INSERT INTO LeaveRequests (firstName, lastName, description, startDate, endDate, totalDays, lineManager, requestStatus,leaveType, email ) VALUES(@0, @1, @2, @3,@4,@5,@6,@7,@8,@9)";
@@ -122,9 +132,9 @@
     
 
         <!-- redirect to a certain page-->
-        Response.Redirect("~/RequestConfirmation");
+        //Response.Redirect("~/RequestConfirmation");
         
-        
+    }
        
     }
 }
@@ -133,6 +143,8 @@
   <h2>Leave Request Form</h2>
 
     <!-- this may be used as a summary " @Html.ValidationSummary()""-->
+
+    <div>  @errorMessagedays</div><br/>
 
     <!-- html form -->
 
