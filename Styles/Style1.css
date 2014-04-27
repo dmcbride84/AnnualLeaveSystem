@@ -71,7 +71,7 @@ margin:12px;
     margin-right: auto;
     margin-left: auto;
     background: #EEE;
-    padding: 20px 30px 20px 30px;
+    padding: 5px 5px 10px 10px;
     font: 12px Georgia, "Times New Roman", Times, serif;
     color: #888;
     text-shadow: 1px 1px 1px #FFF;
@@ -92,6 +92,8 @@ margin:12px;
 .basic-grey label {
     display: block;
     margin: 0px 0px 5px;
+     color: #3b3939;
+     font-weight: bold;
 }
 .basic-grey label>span {
     float: left;
@@ -101,11 +103,11 @@ margin:12px;
     margin-top: 10px;
     color: #888;
 }
-.basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea,.basic-grey select{
+.basic-grey input[type="text"],.basic-grey input[type="number"],.basic-grey input[type="password"], .basic-grey input[type="email"], .basic-grey textarea,.basic-grey select{
     border: 1px solid #DADADA;
-    color: #888;
-    height: 24px;
-    margin-bottom: 16px;
+    color: #000;
+    height: 15px;
+    margin-bottom: 10px;
     margin-right: 6px;
     margin-top: 2px;
     outline: 0 none;
@@ -125,7 +127,7 @@ margin:12px;
     height: 30px;
 }
 .basic-grey textarea{
-    height:100px;
+    height:70px;
 }
 .basic-grey .button {
     background: #E48F8F;

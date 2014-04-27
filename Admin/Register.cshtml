@@ -74,52 +74,44 @@
 
     <h2>Register a new User</h2>
     <form method="post" class="basic-grey">
+     <fieldset>
+        <legend>User Details</legend>
       <p>
         @if(errorMessage != ""){
             <span class="errorMessage">@Html.Raw(errorMessage)</span>
         }
-
         </p>
-      
-
-        <p>
-        <label for="firstName">First Name:</label><br/>
-        <input type="text" name="firstName" id="firstName" value='@Request["firstName"]' />
+        <p><label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName" value='@Request["firstName"]' /></p>
         @Html.ValidationMessage("firstName")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
-      </p>
-
         <p>
-        <label for="lastName">Last Name:</label><br/>
+        <label for="lastName">Last Name:</label>
         <input type="text" name="lastName" id="lastName" value='@Request["lastName"]' />
          @Html.ValidationMessage("lastName")
       </p>
- 
       <p>
-        <label for="username">Username (email):</label><br/>
+        <label for="username">Username (email):</label>
         <input type="email" name="username" id="username" value='@Request["username"]' />
          @Html.ValidationMessage("username")
       </p>
-
       <p>
-        <label for="lineManager">Line Manager:</label><br/>
+        <label for="lineManager">Line Manager:</label>
         <input type="text" name="lineManager" id="lineManager" value='@Request["lineManager"]' />
          @Html.ValidationMessage("lineManager")
       </p>
 
       <p>
-        <label for="annualLeaveDays">Annual Leave Days:</label><br/>
+        <label for="annualLeaveDays">Annual Leave Days:</label>
         <input type="number" name="annualLeaveDays" id="annualLeaveDays" value='@Request["annualLeaveDays"]' />
          @Html.ValidationMessage("annualLeaveDays")
       </p>
-
-
       <p>
-        <label for="password">Password:</label><br/>
+        <label for="password">Password:</label>
         <input type="password" name="password" id="password" value="" />
          @Html.ValidationMessage("password")
       </p>   
       <p>
-        <label for="confirmPassword">Confirm password:</label><br/>
+        <label for="confirmPassword">Confirm password:</label>
         <input type="password" name="confirmPassword" id="confirmPassword" value="" />
          @Html.ValidationMessage("confirmPassword")
       </p>   
@@ -127,12 +119,13 @@
       <p>
         <input type="submit" value="Submit" />
       </p>   
-      <p>
+         </fieldset>
+      </form>
+         <p>
         <a href="@Href("~/Logout")">Log out</a>
         <br/>
         <a href="@Href("~/Home")">Home</a>
         </p>
-      </form>
 
      
   
