@@ -21,8 +21,9 @@
     }
 }
 
-        <h2>Login</h2>
-        <form method="post">
+        
+        <form method="post" class="login">
+             <h2>Login</h2>
             @if(WebSecurity.IsAuthenticated){
                 <p>You are currently logged in as @WebSecurity.CurrentUserName.
                   <a href="@Href("~/Logout")">Log out</a>
@@ -41,9 +42,10 @@
           </p>   
            
          
-          <p><a href="@Href("~/Home")">Return to home page</a></p>
-           
+          
+         
         </form>
+        <p><a href="@Href("~/Home")">Return to home page</a></p>
         <p>
             @if(errorMessage != ""){
                 <span class="errorMessage">@errorMessage</span>

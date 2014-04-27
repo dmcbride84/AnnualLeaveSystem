@@ -9,6 +9,7 @@
     var fullName="";
     var theLineManager ="";
     var testdate="";
+    var requestStatus ="";
 
     ////////////////////////////////////////////// Fic
 
@@ -40,6 +41,8 @@
 
          var dbCommand2 = "SELECT * FROM LeaveRequests WHERE lineManager = @0 ORDER BY requestStatus DESC";
          var selectedData = db.Query(dbCommand2, theLineManager);
+         //var row2 = db.QuerySingle(dbCommand2, ID);
+         //email = row2.email;
                
    
   
