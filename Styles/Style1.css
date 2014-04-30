@@ -307,13 +307,32 @@ input[type=submit]:active {
   line-height: 34px;
 }
 
+.trheading {
+    
+    bgcolor="#4b6c9e"
+    
+}
+
+
 .Pending {
-        background-color:yellow;
+        background-color:#FCFCFF;
     }
 .Approved {
-        background-color:lime;
+        background-color:#E8E6FB;
     }
 .Rejected {
-        background-color:Red;
+        background-color:#C3BDFA;
     }
+
+.Pending:hover {
+    background-color: #ffff99;
+}
+
+.Approved:hover {
+    background-color: #ffff99;
+}
+
+.Rejected:hover {
+    background-color: #ffff99;
+}
 
