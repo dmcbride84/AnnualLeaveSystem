@@ -57,9 +57,9 @@ var theUserName = WebSecurity.CurrentUserName;
         
                <table cellpadding="10">
                    <tr>
-                       <td><p><a href="@Href("~/admin_and_Managers/calendar")">View Calendar</a> </p> </td>
-                       <td><p><a href="@Href("~/requestform")">Request Leave</a></p> </td>
-                       <td><p><a href="@Href("~/Logout")">Log out</a></p> </td> 
+                       
+                       <td><p><a href="@Href("~/requestform")"><h2>Request Leave</h2></a></p> </td>
+                       <td><p><a href="@Href("~/Logout")"><h2>Log out</h2></a></p> </td> 
                    </tr>
                </table>
 
@@ -165,14 +165,14 @@ var theUserName = WebSecurity.CurrentUserName;
          <p>You are logged in as: @theUserName</p> <p>You have @annualLeaveDays annual leave days available</p>
     
            
-             <table cellpadding="10">
+             <table cellpadding="10" border="1">
                    <tr>
-                       <td><p><a href="@Href("~/admin_and_Managers/staffList")">Staff List</a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/calendar")">View Calendar</a> </p> </td>
-                       <td><p><p><a href="@Href("~/requestform")">Request Leave</a></p> </td>
-                       <td><p><a href="@Href("~/Managers/tasks")">Current Tasks</a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")">View Graph</a> </td>
-                       <td><p><a href="@Href("~/Logout")">Logout</a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/staffList")"><h2>Staff List</h2></a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/calendar")"><h2>View Calendar</h2></a> </p> </td>
+                       <td><p><p><a href="@Href("~/requestform")"><h2>Request Leave</h2></a></p> </td>
+                       <td><p><a href="@Href("~/Managers/tasks")"><h2>Current Tasks</h2></a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")"><h2>View Graph</h2></a> </td>
+                       <td><p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p> </td>
                       
                    </tr>
 
@@ -220,7 +220,9 @@ var theUserName = WebSecurity.CurrentUserName;
                 </tr>
 
                @foreach(var rows2 in rows1){
-                <tr>
+
+                 
+                <tr bgcolor="yellow">
                 
                 <th>@rows2.description</th>
                 <th>@rows2.leaveType</th> 
