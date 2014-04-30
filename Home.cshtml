@@ -89,11 +89,9 @@ var theUserName = WebSecurity.CurrentUserName;
 
                 
                
-                <fieldset>
+                 <fieldset>
                 <legend>Your Leave Requests</legend>
                 <table border="1" width="100%"> 
-
-                
                 
                 <tr bgcolor="grey">
                 <th>Description</th> 
@@ -103,9 +101,12 @@ var theUserName = WebSecurity.CurrentUserName;
                 <th>Total days leave requested</th> 
                 <th>Request Status</th> 
                 </tr>
-
+                    
                @foreach(var rows2 in rows1){
-                <tr>
+                   
+      
+                   
+                <tr class="@rows2.requestStatus" >
                 
                 <th>@rows2.description</th>
                 <th>@rows2.leaveType</th> 
@@ -207,8 +208,6 @@ var theUserName = WebSecurity.CurrentUserName;
                 <fieldset>
                 <legend>Your Leave Requests</legend>
                 <table border="1" width="100%"> 
-
-                
                 
                 <tr bgcolor="grey">
                 <th>Description</th> 
@@ -218,11 +217,10 @@ var theUserName = WebSecurity.CurrentUserName;
                 <th>Total days leave requested</th> 
                 <th>Request Status</th> 
                 </tr>
-
+                    
                @foreach(var rows2 in rows1){
-
-                 
-                <tr bgcolor="yellow">
+               
+                <tr class="@rows2.requestStatus" >
                 
                 <th>@rows2.description</th>
                 <th>@rows2.leaveType</th> 
