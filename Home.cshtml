@@ -134,19 +134,19 @@ var theUserName = WebSecurity.CurrentUserName;
     
     
      {
-            <p>You are logged in as: @theUserName</p>
+            <p>You are logged in as: @theUserName</p> <p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p>
 
 
                 
-             <table cellpadding="10">
+             <table cellpadding="10" border="1">
                    <tr>
-                       <td><p><a href="@Href("~/Admin/Register")">Add a user</a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/staffList")">Staff List</a></p> </td>
-                       <td><p><p><a href="@Href("~/Admin/ManageRoles")">Manage Roles</a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/calendar")">View Calendar</a> </p> </td>
-                       <td><p><a href="@Href("~/Admin/allTasks")">All Tasks</a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")">View Graph</a> </td>
-                       <td><p><a href="@Href("~/Logout")">Logout</a></p> </td>
+                       <td><p><a href="@Href("~/Admin/Register")"><h2>Add a user</h2></a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/staffList")"><h2>Staff List</h2></a></p> </td>
+                       <td><p><p><a href="@Href("~/Admin/ManageRoles")"><h2>Manage Roles</h2></a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/calendar")"><h2>View Calendar</h2></a> </p> </td>
+                       <td><p><a href="@Href("~/Admin/allTasks")"><h2>All Tasks</h2></a></p> </td>
+                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")"><h2>View Graph</h2></a> </td>
+                       <td><p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p> </td>
                        
                       
                        

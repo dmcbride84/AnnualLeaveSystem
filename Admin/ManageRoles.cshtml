@@ -86,8 +86,8 @@
           <input type="submit" value="Add User to Role" name="buttonAddUserToRole" />
           <input type="submit" value="Delete User from Role" name="buttonDeleteUserFromRole" />
         </fieldset>
-     
-         
+     </br>
+       <fieldset>  
       <h3>Roles</h3>   
           <ul>
           @foreach(var r in Roles.GetAllRoles())
@@ -102,6 +102,6 @@
           }
           </ul>
         <p><a href="@Href("~/Home")">Return to home page</a></p>
-     
+     </fieldset>
       </form>
   
