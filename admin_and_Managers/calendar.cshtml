@@ -31,7 +31,7 @@ Page.Title = "Leave Calendar";
                 scheduler.config.multi_day = true;
          
                 scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-                scheduler.init('scheduler_here', new Date(2014, 3, 7), "month");
+                scheduler.init('scheduler_here', new Date(2014, 4, 6), "month");
 
                 scheduler.load("@Href("~/data.cshtml")");
                 var dp = new dataProcessor("@Href("~/save.cshtml")");

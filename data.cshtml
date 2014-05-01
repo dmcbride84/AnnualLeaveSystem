@@ -1,5 +1,5 @@
 ﻿@{
-    //testingggggggggggggg     
+      
 
 
      Response.ContentType = "text/xml"; 
@@ -9,7 +9,7 @@
 }
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-    Layout = "~/_Layout.cshtml";
+    
     @foreach(var ev in evs){
         <event id="@ev.id">
             <text><![CDATA[@ev.text]]></text>
