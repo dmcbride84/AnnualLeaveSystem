@@ -65,7 +65,8 @@ var theUserName = WebSecurity.CurrentUserName;
 
                 var db = Database.Open("Annual Leave System");
 
-                var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                //var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                var dbCommand2 ="SELECT *, CASE requestStatus WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 WHEN 'rejected' THEN 2 END  AS requestStatusOrder FROM LeaveRequests WHERE email = @0 ORDER BY requestStatusOrder";
                 var rows1 = db.Query(dbCommand2, theUserName);
 
                  
@@ -181,7 +182,8 @@ var theUserName = WebSecurity.CurrentUserName;
 
                     var db = Database.Open("Annual Leave System");
 
-                var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                //var dbCommand2 = "SELECT * FROM LeaveRequests WHERE email = @0 ORDER BY requestStatus DESC";
+                var dbCommand2 ="SELECT *, CASE requestStatus WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 WHEN 'rejected' THEN 2 END  AS requestStatusOrder FROM LeaveRequests WHERE email = @0 ORDER BY requestStatusOrder";
                 var rows1 = db.Query(dbCommand2, theUserName);
 
                  
@@ -209,7 +211,7 @@ var theUserName = WebSecurity.CurrentUserName;
                 <legend>Your Leave Requests</legend>
                 <table border="1" width="100%"> 
                 
-                <tr bgcolor="grey">
+                <tr bgcolor="#4b6c9e">
                 <th>Description</th> 
                 <th>Leave Type</th> 
                 <th>Start Date</th> 

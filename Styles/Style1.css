@@ -307,9 +307,10 @@ input[type=submit]:active {
   line-height: 34px;
 }
 
-.trheading {
+.heading {
     
-    bgcolor="#4b6c9e"
+    bgcolor="blue"
+    padding:7px; border:#4e95f4 1px solid;
     
 }
 
