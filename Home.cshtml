@@ -53,15 +53,20 @@ var theUserName = WebSecurity.CurrentUserName;
         <p>
            @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Employee")){
       
-               <p>You are logged in as: @theUserName</p> <p>You have @annualLeaveDays annual leave days available</p>
+               <p>You are logged in as: @theUserName</p> 
         
-               <table cellpadding="10">
-                   <tr>
-                       
-                       <td><p><a href="@Href("~/requestform")"><h2>Request Leave</h2></a></p> </td>
-                       <td><p><a href="@Href("~/Logout")"><h2>Log out</h2></a></p> </td> 
-                   </tr>
-               </table>
+                    <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Request Leave</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+                <p>You have @annualLeaveDays annual leave days available</p>
+
+                
 
                 var db = Database.Open("Annual Leave System");
 
@@ -94,7 +99,7 @@ var theUserName = WebSecurity.CurrentUserName;
                 <legend>Your Leave Requests</legend>
                 <table border="1" width="100%"> 
                 
-                <tr bgcolor="#4b6c9e">
+                <tr class="heading">
                 <th>Description</th> 
                 <th>Leave Type</th> 
                 <th>Start Date</th> 
@@ -109,12 +114,12 @@ var theUserName = WebSecurity.CurrentUserName;
                    
                 <tr class="@rows2.requestStatus" >
                 
-                <th>@rows2.description</th>
-                <th>@rows2.leaveType</th> 
-                <th>@rows2.startDate.ToString("dd-MMMM-yyyy")</th> 
-                <th>@rows2.endDate.ToString("dd-MMMM-yyyy")</th> 
-                <th>@rows2.totalDays</th> 
-                <th>@rows2.requestStatus</th> 
+                <td>@rows2.description</td>
+                <td>@rows2.leaveType</td> 
+                <td>@rows2.startDate.ToString("dd-MMMM-yyyy")</td> 
+                <td>@rows2.endDate.ToString("dd-MMMM-yyyy")</td> 
+                <td>@rows2.totalDays</td> 
+                <td>@rows2.requestStatus</td> 
                 </tr>
                   }  
                 </table>
@@ -136,26 +141,25 @@ var theUserName = WebSecurity.CurrentUserName;
     
     
      {
-            <p>You are logged in as: @theUserName</p> <p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p>
+            <p>You are logged in as: @theUserName</p> 
 
 
-                
-             <table cellpadding="10" border="1">
-                   <tr>
-                       <td><p><a href="@Href("~/Admin/Register")"><h2>Add a user</h2></a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/staffList")"><h2>Staff List</h2></a></p> </td>
-                       <td><p><p><a href="@Href("~/Admin/ManageRoles")"><h2>Manage Roles</h2></a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/calendar")"><h2>View Calendar</h2></a> </p> </td>
-                       <td><p><a href="@Href("~/Admin/allTasks")"><h2>All Tasks</h2></a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")"><h2>View Graph</h2></a> </td>
-                       <td><p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p> </td>
-                       
-                      
-                       
-                   </tr>
 
-
-               </table>
+                <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/Register")"><span>Add User</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/ManageRoles")"><span>Manage Roles</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/allTasks")"><span>All Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+               
             
     }
 
@@ -164,21 +168,26 @@ var theUserName = WebSecurity.CurrentUserName;
     
      {
 
-         <p>You are logged in as: @theUserName</p> <p>You have @annualLeaveDays annual leave days available</p>
+         <p>You are logged in as: @theUserName</p> 
+
+
+                <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+                    <p>You have @annualLeaveDays annual leave days available</p>
     
            
-             <table cellpadding="10" border="1">
-                   <tr>
-                       <td><p><a href="@Href("~/admin_and_Managers/staffList")"><h2>Staff List</h2></a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/calendar")"><h2>View Calendar</h2></a> </p> </td>
-                       <td><p><p><a href="@Href("~/requestform")"><h2>Request Leave</h2></a></p> </td>
-                       <td><p><a href="@Href("~/Managers/tasks")"><h2>Current Tasks</h2></a></p> </td>
-                       <td><p><a href="@Href("~/admin_and_Managers/ShowGraph")"><h2>View Graph</h2></a> </td>
-                       <td><p><a href="@Href("~/Logout")"><h2>Logout</h2></a></p> </td>
-                      
-                   </tr>
-
-               </table>
+            
 
                     var db = Database.Open("Annual Leave System");
 
@@ -211,7 +220,7 @@ var theUserName = WebSecurity.CurrentUserName;
                 <legend>Your Leave Requests</legend>
                 <table border="1" width="100%"> 
                 
-                <tr bgcolor="#4b6c9e">
+                <tr >
                 <th>Description</th> 
                 <th>Leave Type</th> 
                 <th>Start Date</th> 
@@ -224,12 +233,12 @@ var theUserName = WebSecurity.CurrentUserName;
                
                 <tr class="@rows2.requestStatus" >
                 
-                <th>@rows2.description</th>
-                <th>@rows2.leaveType</th> 
-                <th>@rows2.startDate.ToString("dd-MMMM-yyyy")</th> 
-                <th>@rows2.endDate.ToString("dd-MMMM-yyyy")</th> 
-                <th>@rows2.totalDays</th> 
-                <th>@rows2.requestStatus</th> 
+                <td>@rows2.description</td>
+                <td>@rows2.leaveType</td> 
+                <td>@rows2.startDate.ToString("dd-MMMM-yyyy")</td> 
+                <td>@rows2.endDate.ToString("dd-MMMM-yyyy")</td> 
+                <td>@rows2.totalDays</td> 
+                <td>@rows2.requestStatus</td> 
                 </tr>
                   }  
                 </table>
