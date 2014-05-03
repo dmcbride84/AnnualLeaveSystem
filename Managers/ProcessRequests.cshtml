@@ -277,6 +277,20 @@
   <h2>Process Leave Request</h2>
     @Html.ValidationSummary()
 
+                   <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+
 
 
 <fieldset>
@@ -322,14 +336,7 @@
       <p><input type="submit" name="buttonSubmit" value="Submit" /></p>
     </fieldset>
   </form></center>
-
-    <br/>
+ <br/>
     <a href="@Href("~/Managers/tasks")"><--back</a>
-    <br/>
-    <a href="@Href("~/Logout")">Log out</a>
-    <br/>
-    <a href="@Href("~/Home")">Home</a>
-    <br/>
-    @startDate @endDate @description @totalLeaveDays @inttotalDays  @updatedLeaveDays
- 
 
+   

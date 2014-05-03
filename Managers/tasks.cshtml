@@ -51,13 +51,28 @@
 
 
         <h2>Leave Requests</h2>
+
+        <div id='cssmenu'>
+                    <ul>
+                      <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                      <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                      <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                      <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                      <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                      <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                      <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+
         <div>
             @grid.GetHtml(
                 tableStyle: "grid",
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                    grid.Column(format: @<a href="~/ProcessRequests?ID=@item.ID">Process</a>),
+                    grid.Column(format: @<a href="~/Managers/ProcessRequests?ID=@item.ID">Process</a>),
                     grid.Column("firstName"),
                     grid.Column("lastName"),
                     grid.Column("description"),
@@ -65,20 +80,10 @@
                     grid.Column("endDate"),
                     grid.Column("totalDays"),
                     grid.Column("requestStatus"),
-                    grid.Column(format: @<a href="~/DeleteRequests?id=@item.ID">Delete</a>)
+                    grid.Column(format: @<a href="~/Managers/DeleteRequests?id=@item.ID">Delete</a>)
                    
                 )
             )
         </div>
 
-        <p>
-        <a href="@Href("~/Logout")">Log out</a>
-        <br/>
-        <a href="@Href("~/Home")">Home</a>
-        </p>
-
-        @theLineManager  @fullName
-        <br>
-        @theUserName
-        <br>
-        Add if not logged in check ///////////////////////////////////////////////////////// @testdate
+       

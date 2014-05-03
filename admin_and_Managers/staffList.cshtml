@@ -10,6 +10,46 @@
 
 
         <h2>Staff List</h2>
+         @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator")){
+
+             <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/Register")"><span>Add User</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/ManageRoles")"><span>Manage Roles</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/allTasks")"><span>All Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+             
+
+         }else if(Roles.IsUserInRole(WebSecurity.CurrentUserName, "Manager")){
+             
+             <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+         }
+    
+    
+  
+
+
+
         <div>
             @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator")){
             @grid.GetHtml(
@@ -17,13 +57,13 @@
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                    grid.Column(format: @<a href="~/edituser?UserID=@item.UserID">Edit</a>),
+                    grid.Column(format: @<a href="~/admin_and_Managers/edituser?UserID=@item.UserID">Edit</a>),
                     grid.Column("firstName"),
                     grid.Column("lastName"),
                     grid.Column("email"),
                     grid.Column("lineManager"),
                     grid.Column("annualLeaveDays"),
-                    grid.Column(format: @<a href="~/DeleteUsers?UserID=@item.UserID">Delete</a>)
+                    grid.Column(format: @<a href="~/Admin/DeleteUsers?UserID=@item.UserID">Delete</a>)
                    
                 ))
             }else if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Manager")){
@@ -33,7 +73,7 @@
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                    grid.Column(format: @<a href="~/edituser?UserID=@item.UserID">Edit</a>),
+                    grid.Column(format: @<a href="~/admin_and_Managers/edituser?UserID=@item.UserID">Edit</a>),
                     grid.Column("firstName"),
                     grid.Column("lastName"),
                     grid.Column("email"),
@@ -49,8 +89,4 @@
              
         </div>
 
-        <p>
-        <a href="@Href("~/Logout")">Log out</a>
-        <br/>
-        <a href="@Href("~/Home")">Home</a>
-        </p>
+      

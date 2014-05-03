@@ -53,7 +53,7 @@ var theUserName = WebSecurity.CurrentUserName;
         <p>
            @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Employee")){
       
-               <p>You are logged in as: @theUserName</p> 
+               <p style="position: absolute;top: 50px;right: 270px;"  > Logged in as:<b>@theUserName</b> </p> 
         
                     <div id='cssmenu'>
                     <ul>
@@ -64,7 +64,7 @@ var theUserName = WebSecurity.CurrentUserName;
                      </ul>
                     </div>
                     <br>
-                <p>You have @annualLeaveDays annual leave days available</p>
+                <p>You have<b style="font-size: x-large"> @annualLeaveDays</b>     annual leave days available</p>
 
                 
 
@@ -141,7 +141,7 @@ var theUserName = WebSecurity.CurrentUserName;
     
     
      {
-            <p>You are logged in as: @theUserName</p> 
+            <p style="position: absolute;top: 50px;right: 270px;"  > Logged in as:<b>@theUserName</b> </p> 
 
 
 
@@ -168,7 +168,7 @@ var theUserName = WebSecurity.CurrentUserName;
     
      {
 
-         <p>You are logged in as: @theUserName</p> 
+         <p style="position: absolute;top: 50px;right: 270px;"  > Logged in as:<b>@theUserName</b> </p> 
 
 
                 <div id='cssmenu'>
@@ -184,7 +184,7 @@ var theUserName = WebSecurity.CurrentUserName;
                      </ul>
                     </div>
                     <br>
-                    <p>You have @annualLeaveDays annual leave days available</p>
+                    <p>You have<b style="font-size: x-large"> @annualLeaveDays</b>     annual leave days available</p>
     
            
             

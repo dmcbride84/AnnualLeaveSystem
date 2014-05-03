@@ -161,8 +161,23 @@
   <h2>Process Leave Request</h2>
     @Html.ValidationSummary()
 
-<h3>Employee Leave Request Details</h3> 
+                    <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+
+
 <fieldset>
+<legend>Employee Leave Request Details</legend>
 <table border="1" width="100%"> 
 
 <tr bgcolor="grey">
@@ -174,12 +189,12 @@
 <th>Total days leave requested</th> 
 </tr>
 <tr>
-<th>@firstName</th> 
-<th>@lastName</th>
-<th>@description</th> 
-<th>@shortStartDate</th> 
-<th>@shortEndDate</th> 
-<th>@inttotalDays</th> 
+<td>@firstName</td> 
+<td>@lastName</td>
+<td>@description</td> 
+<td>@shortStartDate</td> 
+<td>@shortEndDate</td> 
+<td>@inttotalDays</td> 
 </tr>
 
 </table>
@@ -196,19 +211,10 @@
 
 
     <br/>
-    <a href="@Href("~/tasks")"><--back</a>
+    <a href="@Href("~/Managers/tasks")"><--back</a>
 
-    <br/>
-    <a href="@Href("~/Logout")">Log out</a>
-    <br/>
-    <a href="@Href("~/Home")">Home</a>
-    <br/>
-    updated leave days : @updatedLeaveDays
-    <br/>
-    @inttotalDays
-<br>
-@endDate ------------------add box up to confirm delete
-
+   
+   
 
     
 

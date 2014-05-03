@@ -45,22 +45,22 @@
         //Validation.RequireField("UserID", "No User ID was submitted!");
 
         
-        varfirstName = Request.Form["firstName"];
-        varlastName = Request.Form["lastName"];
-        varemail = Request.Form["email"];
-        varlineManager = Request.Form["linemanager"];
+        //varfirstName = Request.Form["firstName"];
+        //varlastName = Request.Form["lastName"];
+        //varemail = Request.Form["email"];
+        //varlineManager = Request.Form["linemanager"];
         //intannualLeaveDays = Request.Form["intannualLeaveDays"];
-        var annualLeaveDays = Request.Form["intannualLeaveDays"];
+        //var annualLeaveDays = Request.Form["intannualLeaveDays"];
         
         varUserID = Request.Form["UserID"];
-        intannualLeaveDays = annualLeaveDays.AsInt();
+       //intannualLeaveDays = annualLeaveDays.AsInt();
 
        
 
         if(Validation.IsValid()){
             var db = Database.Open("Annual Leave System");
-            var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1, email=@2, lineManager=@3, annualLeaveDays=@4 WHERE UserID =@5";
-            db.Execute(updateCommand,varfirstName,varlastName,varemail,varlineManager,intannualLeaveDays, varUserID);
+            var updateCommand = "DELETE UserProfile WHERE  UserID =@0";
+            db.Execute(updateCommand, varUserID);
             Response.Redirect("~/staffList");
             
            
@@ -72,10 +72,24 @@
 
 
 
-  
+  <h2>Delete User</h2>
     @Html.ValidationSummary()
+<div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/Register")"><span>Add User</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/ManageRoles")"><span>Manage Roles</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/allTasks")"><span>All Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    <br>
+
   <form method="post" class="basic-grey">
-      <h2>Edit Users Details</h2>
     <fieldset>
       <legend>User Information</legend>
 
@@ -96,13 +110,10 @@
 
       <input type="hidden" name="UserID" value="@varUserID" />
 
-      <p><input type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+      <p><input type="submit" name="buttonSubmit" value="Delete" /></p>
     </fieldset>
   </form>
+
+    <br/>
+    <a href="@Href("~/admin_and_Managers/staffList")"><-- Back</a>
     
-    <br/>
-    <a href="@Href("~/admin_and_Managers/staffList")"><--back</a>
-    <br/>
-    <a href="@Href("~/Logout")">Log out</a>
-    <br/>
-    <a href="@Href("~/Home")">Home</a>

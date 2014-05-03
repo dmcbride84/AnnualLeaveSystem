@@ -134,8 +134,21 @@
     }
 }
 
+ @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Employee")){
 
-  <h2>Leave Request Form</h2>
+
+  <h2>Leave Request Page</h2>
+
+ <p style="position: absolute;top: 50px;right: 270px;"  > Logged in as:<b>@theUserName</b> </p> 
+        
+                    <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Request Leave</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
 
     <!-- this may be used as a summary " @Html.ValidationSummary()""-->
 
@@ -190,4 +203,71 @@
     <br/>
     <a href="@Href("~/Home")">Home</a>
     <br/>
-   
+
+   }  else if(Roles.IsUserInRole(WebSecurity.CurrentUserName, "Manager"))
+    
+    
+     {
+
+        <h2>Leave Request Page</h2>
+
+ <div id='cssmenu'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+    <!-- this may be used as a summary " @Html.ValidationSummary()""-->
+
+    <div>  @errorMessagedays</div><br/>
+
+    <!-- html form -->
+
+  <form method="post" class="basic-grey" >
+    <fieldset>
+      <legend>Leave request details</legend>
+      <p><label for="description">Description:</label>
+         <input type="text" name="description" value="@Request.Form["description"]" />  <!-- the Request.Form  method stores the value enter by the user-->
+          
+      </p>
+
+        <p>
+            <label for="Leave Type">Leave Type:</label>
+            <select name="theLeaveType">
+            <option value=""></option>
+             <option value="Annual Leave">Annual Leave</option>
+             <option value="Time Off Without Pay">Time Off Without Pay</option>
+             <option value="Maternity/Paternity">Maternity/Paternity</option>
+             <option value="Breavement">Breavement</option>
+             <option value="Jury Duty">Jury Duty</option>
+             <option value="Training">Training</option>
+             <option value="Other">Other</option>
+            </select> 
+             @Html.ValidationMessage("theLeaveType")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+        </p>
+
+      <p><label for="start date">Start Date:</label>
+         <input type="date" name="sdate" value="@Request.Form["sdate"]" />
+          @Html.ValidationMessage("sdate")   <!-- the html.validationMessage method displays a message to the user if they have entered the wrong data or not entered data into required fields-->
+      </p>
+
+      <p><label for="end date">End Date:</label>
+         <input type="date" name="edate" value="@Request.Form["edate"]" />
+          @Html.ValidationMessage("edate")
+      </p>
+      <p><label for="total days">Total Leave Days:</label>
+         <input type="number" name="totaldays" value="@Request.Form["totaldays"]" />
+          @Html.ValidationMessage("totaldays")
+      </p>
+
+      <p><input type="submit" name="btnSubmit" value="Submit" /></p>
+    </fieldset>
+  </form>
+
+     }
