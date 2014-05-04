@@ -106,7 +106,7 @@
             var db = Database.Open("Annual Leave System");
             var deleteCommand = "DELETE FROM LeaveRequests WHERE ID =@0";
             db.Execute(deleteCommand, ID);
-            //Response.Redirect("~/tasks");
+            //Response.Redirect("~/Managers/tasks");
 
 
             //////////////////////send notifcation email////////////////////////////////
@@ -141,7 +141,7 @@
            
            
 
-            Response.Redirect("~/tasks");
+            Response.Redirect("~/Managers/tasks");
 
 
             ////////////////close database////////////////////////////

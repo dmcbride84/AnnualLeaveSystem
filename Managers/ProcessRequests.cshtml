@@ -20,6 +20,8 @@
     var ID = "";
     var email="";
     var calendarDetails="";
+    TimeSpan time = new TimeSpan(23, 55, 00); // hours, minutes, seconds
+    
 
     
 
@@ -140,6 +142,7 @@
             description = row3.description;
             startDate = row3.startDate;
             endDate = row3.endDate;
+            endDate = endDate + time;
 
 
             var dbCommand4 = "SELECT * FROM UserProfile WHERE email = @0";
@@ -156,7 +159,7 @@
 
                 // Add approved days to leave calendar database////////////////////////////////////////////
 
-             var db2 = Database.Open("SchedulerWebMatrix");
+             var db2 = Database.Open("Annual Leave System");
         
 
                 <!-- create and sql statement -->
@@ -212,7 +215,7 @@
             }
 
           
-            Response.Redirect("~/Managers/tasks");
+            //Response.Redirect("~/Managers/tasks");
 
             ////////////////////////////////////////
 

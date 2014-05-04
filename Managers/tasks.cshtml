@@ -39,16 +39,17 @@
 
          
 
-         var dbCommand2 = "SELECT * FROM LeaveRequests WHERE lineManager = @0 ORDER BY requestStatus DESC";
+        //var dbCommand2 = "SELECT * FROM LeaveRequests WHERE lineManager = @0 ORDER BY requestStatus ASC";
+         var dbCommand2 ="SELECT *, CASE requestStatus WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 WHEN 'rejected' THEN 2 END  AS requestStatusOrder FROM LeaveRequests WHERE lineManager = @0 ORDER BY requestStatusOrder";
          var selectedData = db.Query(dbCommand2, theLineManager);
-         //var row2 = db.QuerySingle(dbCommand2, ID);
-         //email = row2.email;
+         
+         // var dbCommand2 ="SELECT *, CASE requestStatus WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 WHEN 'rejected' THEN 2 END  AS requestStatusOrder FROM LeaveRequests WHERE lineManager = @0 ORDER BY requestStatusOrder";
                
    
   
          var grid = new WebGrid(source: selectedData, rowsPerPage: 10);
 }
-
+        
 
         <h2>Leave Requests</h2>
 

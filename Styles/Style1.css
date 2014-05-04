@@ -312,6 +312,7 @@ th {
     background-color:#4b6c9e;
     height:30px;
     font-size:larger;
+    
 }
 
 
@@ -380,5 +381,15 @@ tr{
   background: transparent url('images/hover.gif') no-repeat top right;
   color: #6d7078;
 }
+
+ 
+
+tr:hover, tr.over td { background-color: #ffff99; }
+a:link {color:#000;}
+a:visited {color:#000;}
+a:hover {color:#888;}
+
+
+
 
 
