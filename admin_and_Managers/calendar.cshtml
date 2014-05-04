@@ -1,7 +1,8 @@
 ﻿@{
     
 //Layout = "~/_Layout.cshtml";
-Page.Title = "Leave Calendar";   
+Page.Title = "Leave Calendar"; 
+var theUserName = WebSecurity.CurrentUserName;  
     
 }
 
@@ -43,10 +44,46 @@ Page.Title = "Leave Calendar";
     </head>
     <body onload="init();">
 
-        <div id="header" style='width:99%;'>
+        <div id="header" style='width:79%;position:relative;left:190px;'>
           <h1>Annual Leave Management System</h1>
         </div>
-	    <div id="scheduler_here" class="dhx_cal_container" style='width:99%; height:80%;'>
+         @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Manager")){
+     
+        
+                   <div id='cssmenu' style='width:79%;position:relative;left:190px;'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/requestform")"><span>Leave Request</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Managers/tasks")"><span>Current Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    
+
+ }else if(Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator")){
+     
+     <div id='cssmenu' style='width:80%;position:relative;left:190px;'>
+                    <ul>
+                         <li class='active'><a href="@Href("~/Home")"><span>Home</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/Register")"><span>Add User</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/staffList")"><span>Staff List</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/ManageRoles")"><span>Manage Roles</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/calendar")"><span>View Calendar</span></a></li>
+                         <li class='active'><a href="@Href("~/Admin/allTasks")"><span>All Tasks</span></a></li>
+                         <li class='active'><a href="@Href("~/admin_and_Managers/ShowGraph")"><span>View Graph</span></a></li>
+                         <li><a href="@Href("~/Logout")"><span>Logout</span></a></li>
+                        
+                     </ul>
+                    </div>
+                    
+ }
+
+
+	    <div id="scheduler_here" class="dhx_cal_container" style='width:80%; height:80%;'>
       
            
 		    <div class="dhx_cal_navline" >
@@ -65,14 +102,10 @@ Page.Title = "Leave Calendar";
 		    </div>
            
 	    </div>
-    
-    <a href="@Href("~/Logout")">Log out</a>
-    <br/>
-    <a href="@Href("~/Home")">Home</a>
-    <br/>
+    <div style='width:79%;position:relative;left:190px;'> 
         
         &copy; @DateTime.Now.Year Annual Leave Management System
-      
+      </div>
     </body>
 
 </html>

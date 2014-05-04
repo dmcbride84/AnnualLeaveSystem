@@ -200,6 +200,8 @@ div.dhx_modal_cover {
 	font-size:8pt;
 	position:relative;
 	overflow:hidden;
+    left:190px;
+    
 }
 .dhx_cal_container div{
 	-moz-user-select:none;    
