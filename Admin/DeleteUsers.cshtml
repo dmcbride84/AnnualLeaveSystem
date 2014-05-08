@@ -1,7 +1,7 @@
 ﻿@{
     
     Layout = "~/_Layout.cshtml"; 
-    Page.Title = "Edit User";      
+    Page.Title = "Delete User";      
 
     var varfirstName = "";
     var varlastName = "";
@@ -59,13 +59,20 @@
 
         if(Validation.IsValid()){
             var db = Database.Open("Annual Leave System");
-            var updateCommand = "DELETE UserProfile WHERE  UserID =@0";
-            db.Execute(updateCommand, varUserID);
-            Response.Redirect("~/staffList");
+            var updateCommand1 = "DELETE webpages_Membership WHERE  UserID =@0";
+            db.Execute(updateCommand1, varUserID);
+            var updateCommand2 = "DELETE webpages_UsersInRoles WHERE  UserID =@0";
+            db.Execute(updateCommand2, varUserID);
+            var updateCommand3 = "DELETE UserProfile WHERE  UserID =@0";
+            db.Execute(updateCommand3, varUserID);
+            Response.Redirect("~/admin_and_Managers/staffList");
+            
             
            
         }
     }
+
+   
 
 
 }

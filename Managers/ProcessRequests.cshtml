@@ -1,8 +1,9 @@
 ﻿@{
 
     Layout = "~/_Layout.cshtml";
-    Page.Title = "Process Request";       
-
+    Page.Title = "Process Request";     
+    
+    var managerEmail = WebSecurity.CurrentUserName;  
     var lineManager="";
     var firstName = "";
     var lastName = "";
@@ -19,24 +20,12 @@
     int updatedLeaveDays = 0;
     var ID = "";
     var email="";
+    var employeesEmail="";
     var calendarDetails="";
     TimeSpan time = new TimeSpan(23, 55, 00); // hours, minutes, seconds
     
 
-    
-
-
-   ///// <p><label for="requestStatus">Request Status:</label>
-   //////      <input type="text" name="requestStatus" value="@requestStatus" /></p>
-
-
-
-   ////// remember to updated registor form to include email address in leave request tables------------------------------
-
-
-
-
-    
+ 
 
 
     if(!IsPost){
@@ -47,12 +36,7 @@
             var row = db.QuerySingle(dbCommand, ID);
             //var grid = new WebGrid(source: dbCommand,ID, rowsPerPage: 10);
             
-            //////////////////////////////////////////////////
-
-
-
-            ///////////////////////////////////////////////////
-
+            
             
 
             
@@ -181,12 +165,12 @@
 
                 /////////////////////////////////send email notification with updated annual leave days if approved
 
-    var employeeEmail2 = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    var employeeEmail2 = email; /////////////change this to get users email
     var employeeRequest2 ="Hi "+ firstName +" " + lastName +"," +"<br/><br/>" + " Your request for Leave has been " +"<b>"  +requestStatus +"</b>" +" by your line Manager <br/><br/>" ;
     //var customerRequest = Request["customerRequest"];
     var Details2 = "<b><u>Request Details:</u><b> <br/><br/> "+ "<b>Description:</b> " + description + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ startDate +"<br/> <br/> " + "<b>End Date:</b> " + endDate +"<br/> <br/>" + "<b>Total Days:</b> "+inttotalDays +"<br/><br/> You have " + updatedLeaveDays +" Annual Leave days remaining <br/><br/> Thank you for your Request";
     var errorMessage2 = "";
-    var pass2="dublin09";//////////////////// change this to get users password
+    var pass2="pass@login";//////////////////// change this to get users password
     var debuggingFlag2 = true;
     
     try {
@@ -195,9 +179,9 @@
         
         WebMail.SmtpServer = "smtp.gmail.com";
         WebMail.SmtpPort = 587;
-        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.UserName = managerEmail;
         WebMail.Password = pass2; ///////////////////////////////////////set up to get users password
-        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+        WebMail.From = managerEmail; // change to admin email name
 
         // Send email
         WebMail.Send(to: employeeEmail2,
@@ -221,12 +205,12 @@
 
             /////////////////////////////////send email notification
 
-    var employeeEmail = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    var employeeEmail = email; /////////////change this to get users email
     var employeeRequest ="Hi "+ firstName +" " + lastName +"," +"<br/><br/>" + " Your request for Leave has been " +"<b>"  +requestStatus +"</b>" +" by your line Manager <br/><br/>" ;
     //var customerRequest = Request["customerRequest"];
     var Details = "<b><u>Request Details:</u><b> <br/><br/> "+ "<b>Description:</b> " + description + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ startDate +"<br/> <br/> " + "<b>End Date:</b> " + endDate +"<br/> <br/>" + "<b>Total Days:</b> "+inttotalDays +"<br/><br/> You have " + totalLeaveDays +" Annual Leave days remaining <br/><br/> Thank you for your Request";
     var errorMessage = "";
-    var pass="dublin09";//////////////////// change this to get users password
+    var pass="pass@login";//////////////////// change this to get users password
     var debuggingFlag = true;
     
     try {
@@ -235,9 +219,9 @@
         
         WebMail.SmtpServer = "smtp.gmail.com";
         WebMail.SmtpPort = 587;
-        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.UserName = managerEmail;
         WebMail.Password = pass; ///////////////////////////////////////set up to get users password
-        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+        WebMail.From = managerEmail; // change to admin email name
 
         // Send email
         WebMail.Send(to: employeeEmail,

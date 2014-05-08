@@ -1,6 +1,6 @@
 ﻿@{
     
-  Layout = "~/_Layout.cshtml";
+  //Layout = "~/_Layout.cshtml";
   Page.Title = "Add New User";  
   
   <!-- This is validation for the html form to make sure the user enters data into all the revelant fields when submitting the form-->
@@ -10,11 +10,12 @@
     Validation.RequireField("username", "Please enter a username (email address)");
     Validation.RequireField("totaldays", "You must enter the total leave days to be taken");
     Validation.RequireField("annualLeaveDays", "Please enter annual leave days");
-    //Validation.RequireField("password", "please enter password");
-    //Validation.RequireField("confirmPassword", "please confirm password"); 
+    Validation.RequireField("password", "please enter password");
+    Validation.RequireField("confirmPassword", "please confirm password"); 
 
   var firstName="";
   var lastName="";
+  var fullName= firstName +" "+lastName;
   var username = "";
   var lineManager="";
   var varAnnualLeaveDays="";
@@ -57,8 +58,8 @@
         //////////
          
          var db = Database.Open("Annual Leave System");
-         var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1, LineManager=@2, annualLeaveDays=@3 WHERE email =@4";
-         db.Execute(updateCommand,firstName,lastName,lineManager,intAnnualLeaveDays,username);
+         var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1, LineManager=@2, annualLeaveDays=@3,fullName WHERE email =@4";
+         db.Execute(updateCommand,firstName,lastName,lineManager,intAnnualLeaveDays,fullName,username);
          Response.Redirect("~/Admin/ManageRoles");
 
 

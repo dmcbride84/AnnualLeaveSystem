@@ -1,78 +1,131 @@
 ﻿@{
-    
-//Layout = "~/_Layout.cshtml";
-Page.Title = "Leave Calendar";   
-    
-}
 
+    Layout = "~/_Layout.cshtml";
+  Page.Title = "Add New User";      
 
-<!DOCTYPE html>
+  var firstName="";
+  var lastName="";
+  var fullName= firstName +" "+lastName;
+  var username = "";
+  var lineManager="";
+  var varAnnualLeaveDays="";
+  int intAnnualLeaveDays=0;
+  var password = "";
+  var confirmPassword = "";
+  var errorMessage = "";
+  
+  if(!IsPost){
+    if(WebSecurity.IsAuthenticated){
+      errorMessage = String.Format("You are already logged in. (User name: {0})", WebSecurity.CurrentUserName);
+    }
+  }
+   
+  if(IsPost){
+    //WebSecurity.Logout();
+      
+    firstName = Request["firstName"];
+    lastName = Request["lastName"];
+    username = Request["username"];
+    lineManager = Request["lineManager"];
+    varAnnualLeaveDays = Request["annualLeaveDays"];
+    intAnnualLeaveDays = varAnnualLeaveDays.AsInt();
+    password = Request["password"];
+    confirmPassword = Request["confirmPassword"];
+ 
+    if(password != confirmPassword){
+      errorMessage = "Passwords don't match.";
+    }
+    else {
+      if(WebSecurity.UserExists(username)){
+        errorMessage = String.Format("User '{0}' already exists.", username);
+      }
+      else{
+        WebSecurity.CreateUserAndAccount(username,password,null,false);
+        errorMessage = String.Format("{0} created.", username);
 
-<html lang="en">
-    <head>
-         <title>@Page.Title</title>
-    <link href="~/Styles/Style1.css" rel="stylesheet" type="text/css" />
-
-        <meta charset="utf-8" />
-        <title>dhtmlxScheduler</title>
-        <script src="@Href("~/Scripts/dhtmlxScheduler/dhtmlxscheduler.js")"></script>
-	    <script src="@Href("~/Scripts/dhtmlxScheduler/ext/dhtmlxscheduler_dhx_terrace.js")"></script>
-	    <link href="@Href("~/Scripts/dhtmlxScheduler/dhtmlxscheduler_dhx_terrace.css")" type="text/css" rel="stylesheet">
-
-        <style>
-            html, body{
-                height: 100%;
-                margin: 0;
-            }
-        </style>
-    
-        <script type="text/javascript" charset="utf-8">
-            function init() {
-                scheduler.config.multi_day = true;
+        //////////
          
-                scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-                scheduler.init('scheduler_here', new Date(2014, 3, 7), "month");
+        // var db = Database.Open("Annual Leave System");
+         //var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1  WHERE email =@2";
+         //db.Execute(updateCommand,firstName,lastName, username);
+         //Response.Redirect("~/admin_and_Managers/staffList");
 
-                scheduler.load("@Href("~/data.cshtml")");
-                var dp = new dataProcessor("@Href("~/save.cshtml")");
+         var db = Database.Open("Annual Leave System");
+         var updateCommand = "UPDATE UserProfile SET firstName=@0,lastName=@1, LineManager=@2, annualLeaveDays=@3,fullName WHERE email =@4";
+         db.Execute(updateCommand,firstName,lastName,lineManager,intAnnualLeaveDays,fullName,username);
+         Response.Redirect("~/Admin/ManageRoles");
 
-                dp.init(scheduler);
-                dp.setTransactionMode("POST", false);
-            }
-        </script>
-    </head>
-    <body onload="init();">
 
-         <div id="header" style='width:80%;'>
-          <h1>Annual Leave Management System</h1>
-        </div>
-	    <div id="scheduler_here" class="dhx_cal_container" style='width:81%; height:70%;'>
-      
-           
-		    <div class="dhx_cal_navline" >
+        ///////////
 
-			    <div class="dhx_cal_prev_button">&nbsp;</div>
-			    <div class="dhx_cal_next_button">&nbsp;</div>
-			    <div class="dhx_cal_today_button"></div>
-			    <div class="dhx_cal_date"></div>
-			    <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-			    <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-			    <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-		    </div>
-		    <div class="dhx_cal_header">
-		    </div>
-		    <div class="dhx_cal_data">
-		    </div>
-           
-	    </div>
-    
-    <a href="@Href("~/Logout")">Log out</a>
-    <br/>
-    <a href="@Href("~/Home")">Home</a>
-    <br/>
-        
-        &copy; @DateTime.Now.Year Annual Leave Management System
-      
+
+
+      }
+    }
+  }
+}
+ 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="@Href("~/")Validation.css" type="text/css" />
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <h1>Register a new User</h1>
+    <form method="post">
+      <p>
+        @if(errorMessage != ""){
+            <span class="errorMessage">@Html.Raw(errorMessage)</span>
+        }
+      </p>
+
+        <p>
+        <label for="firstName">First Name:</label><br/>
+        <input type="text" name="firstName" id="firstName" value='@Request["firstName"]' />
+      </p>
+
+        <p>
+        <label for="lastName">Last Name:</label><br/>
+        <input type="text" name="lastName" id="lastName" value='@Request["lastName"]' />
+      </p>
+ 
+      <p>
+        <label for="username">Username (email):</label><br/>
+        <input type="text" name="username" id="username" value='@Request["username"]' />
+      </p>
+        <p>
+        <label for="lineManager">Line Manager:</label></br>
+        <input type="text" name="lineManager" id="lineManager" value='@Request["lineManager"]' />
+         @Html.ValidationMessage("lineManager")
+      </p>
+        <p>
+        <label for="annualLeaveDays">Annual Leave Days:</label></br>
+        <input type="number" name="annualLeaveDays" id="annualLeaveDays" value='@Request["annualLeaveDays"]' />
+         @Html.ValidationMessage("annualLeaveDays")
+      </p>
+
+
+      <p>
+        <label for="password">Password:</label><br/>
+        <input type="password" name="password" id="password" value="" />
+      </p>   
+      <p>
+        <label for="confirmPassword">Confirm password:</label><br/>
+        <input type="password" name="confirmPassword" id="confirmPassword" value="" />
+      </p>   
+ 
+      <p>
+        <input type="submit" value="Submit" />
+      </p>   
+      <p>
+        <a href="@Href("~/Logout")">Log out</a>
+        <br/>
+        <a href="@Href("~/Home")">Home</a>
+        </p>
+      </form>
+
+      @username
     </body>
-
 </html>

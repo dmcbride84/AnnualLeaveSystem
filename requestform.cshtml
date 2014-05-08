@@ -10,13 +10,13 @@
     Validation.RequireField("edate", "You must enter a end date");
     Validation.RequireField("totaldays", "You must enter the total leave days to be taken");
 
-
     <!-- create variables to store the html form input values and intialise these variables to emptpy value-->
     
     var theUserName = WebSecurity.CurrentUserName;
     var theFirstName ="";
     var theLastName ="";
     var email = theUserName;
+    var managerEmail ="";
     var theLineManager ="";
     var theLeaveType="";
     var thedescription = "";
@@ -27,6 +27,33 @@
     int TotalAnnualLeaveDays=0;
     int intTotalLeaveDays = totalLeaveDays.AsInt();
     var errorMessagedays = "";
+
+    <!-- Open a database connection-->
+        var db2 = Database.Open("Annual Leave System");
+
+
+            var dbCommand1 = "SELECT * FROM UserProfile WHERE email = @0";
+            var row1 = db2.QuerySingle(dbCommand1, theUserName);
+
+            if(row1 != null) {
+               
+                theLineManager = row1.lineManager;
+
+               
+            }
+
+            var dbCommand2 = "SELECT * FROM UserProfile WHERE fullname = @0";
+            var row2 = db2.QuerySingle(dbCommand2, theLineManager);
+
+             if(row2 != null) {
+               
+                managerEmail = row2.email;
+
+               
+            }
+
+     
+    
     
 
             
@@ -34,9 +61,6 @@
 
 
  
-    //////////////////////////////////////////////////////////check user must be logged in///////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////
     <!-- Check if all Fields are set and validated-->
 
     if(IsPost && Validation.IsValid()){
@@ -73,9 +97,11 @@
                 TotalAnnualLeaveDays = row.annualLeaveDays;
 
 
-               ////////////////if not annual leave
+               
             }
+           
 
+           
            
 
             if(theLeaveType=="Annual Leave" && intTotalLeaveDays > TotalAnnualLeaveDays){
@@ -91,18 +117,14 @@
         db.Execute(insertCommand, theFirstName,theLastName, thedescription, thestartDate, theendDate, totalLeaveDays, theLineManager,theRequestStatus,theLeaveType,email);
                 
    
-        /////////////////////////////////////////////////  
-        
-   // var shortStartDate = thestartDate.ToString("dd-MMMM-yyyy"); //Convert date time to string format EG. 12-mar-2014
-   // var shortEndDate = theendDate.ToString("dd-MMMM-yyyy");            
     
-    //var customerName = Request["customerName"];
-    var employeeEmail = "derek.skybc3@gmail.com"; /////////////change this to get users email
+    
+    
     var employeeRequest ="Hi "+ theLineManager +"," +"<br/><br/>" + " a request for leave has been made by  "+theFirstName+ " " +theLastName +"<br/><br/>"; ///add details of request in email message
     //var customerRequest = Request["customerRequest"];
     var Details = "<b>Description:</b> " + thedescription + "<br/><br/>" +"<b>Leave Type: </b>" + theLeaveType + "<br/><br/>" +"<b>Start Date:</b> "+ thestartDate +"<br/> <br/> " + "<b>End Date:</b> " + theendDate +"<br/> <br/>" + "<b>Total Days:</b> " +totalLeaveDays +"<br/><br/><b><i><u> Please log onto the website to process this request</u></i></b>"+"<br/><br/> Thank you";
     var errorMessage = "";
-    var pass="dublin09";//////////////////// change this to get users password
+    var pass="pass@login";//////////////////// change this to get users password
     var debuggingFlag = true;
     
     try {
@@ -111,12 +133,12 @@
         
         WebMail.SmtpServer = "smtp.gmail.com";
         WebMail.SmtpPort = 587;
-        WebMail.UserName = "derek.skybc3@gmail.com";
+        WebMail.UserName = email;
         WebMail.Password = pass; ///////////////////////////////////////set up to get users password
-        WebMail.From = "derek.skybc3@gmail.com"; // change to admin email name
+        WebMail.From = email; // change to admin email name
 
         // Send email
-        WebMail.Send(to: employeeEmail,
+        WebMail.Send(to: managerEmail,
             subject: "Leave Request - " + theFirstName + theLastName,
             body: employeeRequest + Details
         );
@@ -209,7 +231,7 @@
     
      {
 
-        <h2>Leave Request Page</h2>
+        <h2>Leave Request Page@managerEmail;</h2>
 
  <div id='cssmenu'>
                     <ul>
@@ -224,7 +246,7 @@
                      </ul>
                     </div>
     <!-- this may be used as a summary " @Html.ValidationSummary()""-->
-
+<br/>
     <div>  @errorMessagedays</div><br/>
 
     <!-- html form -->
